@@ -22,7 +22,8 @@ class Enemigo():
         self.hit = False
         self.vida = 100
         self.alive = True
-        self.attack_range = pygame.Rect(self.rect.centerx - 200, self.rect.y, 400, self.rect.height)
+        self.attack_range = pygame.Rect(
+            self.rect.centerx - 200, self.rect.y, 400, self.rect.height)
         self.speed_x = 5
         self.speed_y = 5
         self.distance = 0
@@ -32,16 +33,16 @@ class Enemigo():
         for y, animation in enumerate(animation_steps):
             temp_img_list = []
             for x in range(animation):
-                temp_img = sprite_sheet.subsurface(x * self.size, y * self.size, self.size, self.size)
-                temp_img_list.append(pygame.transform.scale(temp_img, (self.size * self.image_scale, self.size * self.image_scale)))
+                temp_img = sprite_sheet.subsurface(
+                    x * self.size, y * self.size, self.size, self.size)
+                temp_img_list.append(pygame.transform.scale(
+                    temp_img, (self.size * self.image_scale, self.size * self.image_scale)))
             animation_list.append(temp_img_list)
         return animation_list
 
     def move(self, screen_width, screen_height, surface, target, plataformas):
-
-        
         if not self.attack_range.colliderect(target.rect):
-            # Move towards target (fighter_2) on the x-axis
+            # Mover hacia el objetivo (jugador) en el eje x
             if self.rect.centerx < target.rect.centerx:
                 self.direction_x = 1
                 self.flip = False
@@ -61,8 +62,8 @@ class Enemigo():
                     elif self.vel_y < 0:
                         self.rect.top = plataforma.rect.bottom
                         self.vel_y = 0
-            
-            # Move towards target (fighter_2) on the y-axis
+
+            # Mover hacia el objetivo (jugador) en el eje y
             if self.rect.centery < target.rect.centery:
                 self.direction_y = 1
             else:
@@ -78,19 +79,30 @@ class Enemigo():
     def attack(self, surface, target):
         if self.attack_cooldown == 0:
             self.attacking = True
-            attack_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip),
-                                    self.rect.y, 2 * self.rect.width, self.rect.height)
+            self.attack_duration = 200  # Duración del ataque: 200 frames
+            attack_rect = pygame.Rect(
+                self.rect.centerx - (2 * self.rect.width * self.flip),
+                self.rect.y, 2 * self.rect.width, self.rect.height)
             if attack_rect.colliderect(target.rect):
                 target.vida -= 10
                 target.hit = True
             pygame.draw.rect(surface, 'Green', attack_rect)
-            self.attack_cooldown = 60  # Set cooldown time to 60 frames
+            self.attack_cooldown = 60  # Establecer tiempo de enfriamiento en 60 frames
+
+        if self.attack_duration > 0:
+            self.attack_duration -= 1
+        else:
+            self.attacking = False
+            self.attack_cooldown = 20
+            self.frame_index = 0  # Reiniciar frame_index cuando la animación de ataque haya terminado
 
         self.update()
 
     def draw(self, surface):
-        img = pygame.transform.flip(self.image, self.flip, False)
-        surface.blit(img, (self.rect.x - (self.offset[0] * self.image_scale), self.rect.y - (self.offset[1] * self.image_scale)))
+        img = pygame.transform.flip(
+            self.image, self.flip, False)
+        surface.blit(img, (self.rect.x - (self.offset[0] * self.image_scale),
+                           self.rect.y - (self.offset[1] * self.image_scale)))
 
     def update(self):
         if self.vida <= 0:
@@ -107,6 +119,7 @@ class Enemigo():
             if self.frame_index == len(self.animation_list[self.action]) - 1:
                 self.attacking = False
                 self.attack_cooldown = 20
+                self.frame_index = 0  # Reiniciar frame_index cuando la animación de ataque haya terminado
         elif self.jump:
             self.update_action(2)
         elif self.running:

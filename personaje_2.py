@@ -72,30 +72,6 @@ class Personaje():
           if key[pygame.K_t]:
             self.tipo_ataque = 2
 
-
-      #check player 2 controls
-      if self.player == 2:
-        #movement
-        if key[pygame.K_LEFT]:
-          dx = -VELOCIDAD
-          self.corriendo = True
-        if key[pygame.K_RIGHT]:
-          dx = VELOCIDAD
-          self.corriendo = True
-        #salto
-        if key[pygame.K_UP] and self.salto == False:
-          self.velocidad_y = -30
-          self.salto = True
-        #attack
-        if key[pygame.K_k] or key[pygame.K_p]:
-          self.attack(target)
-          #determine which attack type was used
-          if key[pygame.K_k]:
-            self.tipo_ataque = 1
-          if key[pygame.K_p]:
-            self.tipo_ataque = 2
-
-
     #apply gravity
     self.velocidad_y += GRAVEDAD
     dy += self.velocidad_y
