@@ -124,9 +124,9 @@ class Personaje():
       self.update_accion(5)#5:hit
     elif self.atacando == True:
       if self.tipo_ataque == 1:
-        self.update_accion(3)#3:attack1
+        self.update_accion(3)
       elif self.tipo_ataque == 2:
-        self.update_accion(4)#4:attack2
+        self.update_accion(4)
     elif self.salto == True:
       self.update_accion(2)#2:salto
     elif self.corriendo == True:
@@ -163,7 +163,7 @@ class Personaje():
   def attack(self, target):
     if self.cooldown_ataque == 0:
       #execute attack
-      self.atacando = True
+      self.atacando = True     
       self.sonido_ataque.play()
       attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
       if attacking_rect.colliderect(target.rect):

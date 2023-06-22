@@ -87,13 +87,13 @@ class Enemigo():
                 target.vida -= 10
                 target.hit = True
             pygame.draw.rect(surface, 'Green', attack_rect)
-            self.attack_cooldown = 60  # Establecer tiempo de enfriamiento en 60 frames
+            self.attack_cooldown = 200  # Establecer tiempo de enfriamiento en 60 frames
 
         if self.attack_duration > 0:
             self.attack_duration -= 1
         else:
             self.attacking = False
-            self.attack_cooldown = 20
+            self.attack_cooldown = 200
             self.frame_index = 0  # Reiniciar frame_index cuando la animación de ataque haya terminado
 
         self.update()
@@ -118,7 +118,7 @@ class Enemigo():
                 self.update_action(4)
             if self.frame_index == len(self.animation_list[self.action]) - 1:
                 self.attacking = False
-                self.attack_cooldown = 20
+                self.attack_cooldown = 200
                 self.frame_index = 0  # Reiniciar frame_index cuando la animación de ataque haya terminado
         elif self.jump:
             self.update_action(2)
@@ -127,7 +127,7 @@ class Enemigo():
         else:
             self.update_action(0)
 
-        animation_cooldown = 50
+        animation_cooldown = 60
         self.image = self.animation_list[self.action][self.frame_index]
         if pygame.time.get_ticks() - self.update_time > animation_cooldown:
             self.frame_index += 1

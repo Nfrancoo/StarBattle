@@ -1,7 +1,7 @@
 import pygame
 from pygame import mixer
 from personaje_2 import Personaje
-from enemigo_2 import Enemigo
+from pruebas.enemigo_3 import Enemigo
 from plataforma import Plataforma
 
 mixer.init()
@@ -103,7 +103,7 @@ while run:
 
   #show player stats
   pintar_vida_barra(personaje_1.vida, 20, 20)
-  pintar_vida_barra(personaje_2.vida, 580, 20)
+  pintar_vida_barra(personaje_2.health, 580, 20)
   draw_text("P1: " + str(score[0]), score_font, 'Red', 20, 60)
   draw_text("P2: " + str(score[1]), score_font, 'Red', 580, 60)
 
@@ -111,7 +111,7 @@ while run:
   if intro_count <= 0:
     #move fighters
     personaje_1.movimiento(pantalla_width, pantalla_height, PANTALLA, personaje_2, round_over,plataformas)
-    personaje_2.movimiento(pantalla_width, pantalla_height, PANTALLA, personaje_1, round_over,plataformas)
+    personaje_2.move(pantalla_width, pantalla_height, PANTALLA, personaje_1, round_over)
   else:
     #display count timer
     draw_text(str(intro_count), count_font, 'Red', pantalla_width / 2, pantalla_height / 3)
@@ -135,7 +135,7 @@ while run:
       score[1] += 1
       round_over = True
       round_over_time = pygame.time.get_ticks()
-    elif personaje_2.vivo == False:
+    elif personaje_2.alive == False:
       score[0] += 1
       round_over = True
       round_over_time = pygame.time.get_ticks()
@@ -149,8 +149,8 @@ while run:
       personaje_2 = Enemigo(2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS, magic_fx)
 
 
-  if personaje_1.rect.right >= personaje_2.rect.left and personaje_1.rect.left <= personaje_2.rect.right:
-    personaje_2.ataque(personaje_1)
+  if personaje_2.alive == True:
+    personaje_2.attack(PANTALLA, personaje_1)
   #event handler
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
