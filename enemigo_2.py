@@ -22,9 +22,8 @@ class Enemigo():
         self.hit = False
         self.vida = 100
         self.vivo = True
-        self.attack_range = pygame.Rect(self.rect.centerx - 200, self.rect.y, 400, self.rect.height)
-        self.speed_x = 5
-        self.speed_y = 5
+        self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
+        self.puede_saltar = True
 
     def cargar_imagenes(self, sprite_sheet, pasos_animacion):
         lista_animaciones = []
@@ -43,11 +42,12 @@ class Enemigo():
         dy = 0
         self.corriendo = False
         self.tipo_ataque = 0
-        DISTANCIA_DE_ATAQUE = 195
-
+        DISTANCIA_ENTRE_TARGET = 195
         distancia = target.rect.x - self.rect.x
+        img = pygame.transform.flip(self.imagen, self.flip, False)
+
         if self.golpeando == False and self.vivo == True and round_over == False:
-            if abs(distancia) > DISTANCIA_DE_ATAQUE:
+            if abs(distancia) > DISTANCIA_ENTRE_TARGET:
                 dx = VELOCIDAD * (distancia / abs(distancia))
                 self.corriendo = True
 
@@ -60,21 +60,46 @@ class Enemigo():
                 dx = -self.rect.left
             if self.rect.right + dx > screen_width:
                 dx = screen_width - self.rect.right
+                if self.golpeando:
+                    self.golpeando = False
             if self.rect.bottom + dy > screen_height - 110:
                 self.velocidad_y = 0
                 self.salto = False
                 dy = screen_height - 110 - self.rect.bottom
+                self.puede_saltar = True  # Permitir saltar nuevamente
 
             if target.rect.centerx > self.rect.centerx:
                 self.flip = False
             else:
                 self.flip = True
 
+            if self.salto and self.rect.y > -30:
+                surface.blit(img, (self.rect.x - (self.desplazamiento[0] * self.imagen_escalada),
+                   self.rect.y - self.desplazamiento[1] * self.imagen_escalada - self.velocidad_y))
             # Aplicar movimiento en las coordenadas del rectángulo
             self.rect.x += dx
             self.rect.y += dy
+            self.rango_ataque.center = self.rect.center
 
-            # apply attack cooldown
+            # Lógica de salto
+            if target.salto and self.velocidad_y == 0 and self.puede_saltar:
+                self.velocidad_y = -30
+                self.salto = True
+                self.puede_saltar = False  # No permitir saltar nuevamente
+
+            for plataforma in plataformas:
+                if self.rect.colliderect(plataforma.rectangulo):
+                    # Si está colisionando, detener el movimiento vertical y ajustar la posición
+                    if self.velocidad_y > 0:
+                        self.rect.bottom = plataforma.rectangulo.top
+                        self.velocidad_y = 0
+                        self.salto = False
+                        self.puede_saltar = True  # Permitir saltar nuevamente
+                    elif self.velocidad_y < 0:
+                        self.rect.top = plataforma.rectangulo.bottom
+                        self.velocidad_y = 0
+                        
+            # Aplicar cooldown al ataque
             if self.cooldown_ataque > 0:
                 self.cooldown_ataque -= 1
 
@@ -83,31 +108,35 @@ class Enemigo():
             else:
                 self.tipo_ataque = 2
 
-    def ataque(self, target):
+    def ataque(self, target,surface):
+        if self.salto:
+            return  # Si el enemigo está saltando, no puede atacar
+
         if self.rect.right >= target.rect.left and self.rect.left <= target.rect.right:
             if self.cooldown_ataque == 0:
                 self.golpeando = True
-                attack_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip),
-                                        self.rect.y, 2 * self.rect.width, self.rect.height)
-                if attack_rect.colliderect(target.rect):
+                attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
+                if attacking_rect.colliderect(target.rect):
+                    pygame.draw.rect(surface, 'Green', attacking_rect)
                     target.vida -= 10
                     target.hit = True
-                self.cooldown_ataque = 50  # Set cooldown time to 60 frames
+                self.cooldown_ataque = 70  # Set cooldown time to 60 frames
 
             self.update()
 
     def draw(self, surface):
         img = pygame.transform.flip(self.imagen, self.flip, False)
-        surface.blit(img, (self.rect.x - (self.desplazamiento[0] * self.imagen_escalada), self.rect.y - (self.desplazamiento[1] * self.imagen_escalada)))
+        surface.blit(img, (self.rect.x - self.desplazamiento[0] * self.imagen_escalada,
+                   self.rect.y - self.desplazamiento[1] * self.imagen_escalada))
 
     def update(self):
         if self.vida <= 0:
             self.vida = 0
             self.vivo = False
             self.update_accion(6)
-        if self.hit:
+        elif self.hit:
             self.update_accion(5)
-        if self.golpeando:
+        elif self.golpeando:
             if self.tipo_ataque == 1:
                 self.update_accion(3)
             elif self.tipo_ataque == 2:
@@ -124,18 +153,21 @@ class Enemigo():
         if pygame.time.get_ticks() - self.update_time > animation_cooldown:
             self.frame_index += 1
             self.update_time = pygame.time.get_ticks()
+
         if self.cooldown_ataque > 0:
             self.cooldown_ataque -= 1
-
         if self.frame_index >= len(self.lista_animaciones[self.accion]):
-            self.frame_index = 0
-            if self.accion == 3 or self.accion == 4:
-                self.golpeando = False
-                self.cooldown_ataque = 20
-            if self.accion == 5:
-                self.hit = False
-                self.golpeando = False
-                self.cooldown_ataque = 20
+            if self.vivo == False:
+                self.frame_index = len(self.lista_animaciones[self.accion]) - 1
+            else:
+                self.frame_index = 0
+                if self.accion == 3 or self.accion == 4:
+                    self.golpeando = False
+                    self.cooldown_ataque = 20
+                elif self.accion == 5:
+                    self.hit = False
+                    self.golpeando = False
+                    self.cooldown_ataque = 20
 
     def update_accion(self, new_accion):
         if new_accion != self.accion:
