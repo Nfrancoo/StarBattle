@@ -21,7 +21,7 @@ class Personaje():
     self.cooldown_ataque = 0
     self.sonido_ataque = sound
     self.hit = False
-    self.vida = 10000
+    self.vida = 100
     self.vivo = True
     self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
 
