@@ -1,7 +1,7 @@
 import pygame
 
 class Enemigo():
-    def __init__(self, player, x, y, flip, data, sprite_sheet, pasos_animacion, sound):
+    def __init__(self, player, x, y, flip, data, sprite_sheet, pasos_animacion):
         self.size = data[0]
         self.imagen_escalada = data[1]
         self.desplazamiento = data[2]
@@ -18,7 +18,6 @@ class Enemigo():
         self.golpeando = False
         self.tipo_ataque = 0
         self.cooldown_ataque = 0
-        self.sonido_ataque = sound
         self.hit = False
         self.vida = 100
         self.vivo = True

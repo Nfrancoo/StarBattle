@@ -1,7 +1,7 @@
 import pygame
 
 class Personaje():
-  def __init__(self, player, x, y, flip, data, sprite_sheet, animacion_pasos, sound):
+  def __init__(self, player, x, y, flip, data, sprite_sheet, animacion_pasos):
     self.player = player
     self.tamaño = data[0]
     self.imagen_escalada = data[1]
@@ -19,7 +19,6 @@ class Personaje():
     self.atacando = False
     self.tipo_ataque = 0
     self.cooldown_ataque = 0
-    self.sonido_ataque = sound
     self.hit = False
     self.vida = 100
     self.vivo = True
@@ -169,7 +168,6 @@ class Personaje():
     if self.cooldown_ataque == 0:
       #execute attack
       self.atacando = True     
-      self.sonido_ataque.play()
       attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
       if attacking_rect.colliderect(target.rect):
         target.vida -= 10

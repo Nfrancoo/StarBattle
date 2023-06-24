@@ -1,10 +1,9 @@
 import pygame
-from pygame import mixer
+import sys
 from personaje_2 import Personaje
 from enemigo_2 import Enemigo
 from plataforma import Plataforma
 
-mixer.init()
 pygame.init()
 
 # Función para pintar el fondo
@@ -28,9 +27,13 @@ def pintar_rectangulo(personaje):
     pygame.draw.rect(PANTALLA, 'Red', personaje.rect, 2)
 
 # Función para dibujar texto
-def draw_text(text, font, text_col, x, y):
-    img = font.render(text, True, text_col)
+def escribir_texto(text, font,color, x, y):
+    img = font.render(text, True, color)
     PANTALLA.blit(img, (x, y))
+    '''
+    render toma el texto, un valor booleano que indica si se debe aplicar un suavizado al texto 
+    (en este caso se establece en True)
+    '''
 
 # Crear ventana del juego
 pantalla_width = 1000
@@ -44,58 +47,49 @@ reloj = pygame.time.Clock()
 FPS = 60
 
 # Definir variables del juego
-intro_count = 3
 last_count_update = pygame.time.get_ticks()
 score = [0, 0]  # Puntuaciones de los jugadores. [P1, P2]
 round_over = False
 ROUND_OVER_COOLDOWN = 2000
 
 # Definir variables de imagen
-WARRIOR_SIZE = 162
-WARRIOR_SCALE = 4
-WARRIOR_OFFSET = [72, 56]
-WARRIOR_DATA = [WARRIOR_SIZE, WARRIOR_SCALE, WARRIOR_OFFSET]
-WIZARD_SIZE = 250
-WIZARD_SCALE = 3
-WIZARD_OFFSET = [112, 107]
-WIZARD_DATA = [WIZARD_SIZE, WIZARD_SCALE, WIZARD_OFFSET]
+WARRIOR_TAMAÑO = 126
+WARRIOR_ESCALA = 4
+WARRIOR_DESPLAZAMIENTO = [92, 58] #12 para el lado derecho y 92 lado izquierdo
+WARRIOR_DATA = [WARRIOR_TAMAÑO, WARRIOR_ESCALA, WARRIOR_DESPLAZAMIENTO]
+ESPADACHIN_TAMAÑO = 200
+ESPADACHIN_ESCALA = 3
+ESPADACHIN_DESPLAZAMIENTO = [81, 116]
+ESPADACHIN_DATA = [ESPADACHIN_TAMAÑO, ESPADACHIN_ESCALA, ESPADACHIN_DESPLAZAMIENTO]
 
-# Cargar música y sonidos
-pygame.mixer.music.load("audio/music.mp3")
-pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1, 0.0, 5000)
-sword_fx = pygame.mixer.Sound("audio/sword.wav")
-sword_fx.set_volume(0.5)
-magic_fx = pygame.mixer.Sound("audio/magic.wav")
-magic_fx.set_volume(0.75)
 
 # Cargar imagen de fondo
 fondo = pygame.image.load('imagenes/69.webp')
 
 # Cargar spritesheets
-warrior_sheet = pygame.image.load('warrior/Sprites/warrior.png')
-wizard_sheet = pygame.image.load('wizard/Sprites/wizard.png')
+warrior_sheet = pygame.image.load('warrior\Sprites\el marcial.png')
+espadachin_sheet = pygame.image.load('wizard/Sprites/espadachin.png')
 
 # Cargar imagen de victoria
-victory_img = pygame.image.load("imagenes/victory.png")
+imagen_victoria = pygame.image.load("imagenes/victory.png")
+imagen_gameover = pygame.image.load('imagenes/endgame.png')
 
 # Definir número de pasos en cada animación
-WARRIOR_ANIMACION_PASOS = [10, 8, 1, 7, 7, 3, 7]
-WIZARD_ANIMACION_PASOS = [8, 8, 1, 8, 8, 3, 7]
+WARRIOR_ANIMACION_PASOS = [10, 8, 3, 7, 6, 3, 11]
+ESPADACHIN_ANIMACION_PASOS = [4, 8, 1, 3, 4, 3, 7]
 
 # Definir fuente
-count_font = pygame.font.Font("fonts/turok.ttf", 80)
 score_font = pygame.font.Font("fonts/turok.ttf", 30)
 
 # Crear dos instancias de personaje
-personaje_1 = Personaje(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMACION_PASOS, sword_fx)
-personaje_2 = Enemigo(2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMACION_PASOS, magic_fx)
+personaje_1 = Personaje(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMACION_PASOS,)
+personaje_2 = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, espadachin_sheet, ESPADACHIN_ANIMACION_PASOS,)
 
 plataformas = []
 
 # Bucle principal del juego
-run = True
-while run:
+
+while True:
     reloj.tick(FPS)
 
     # Dibujar fondo
@@ -104,21 +98,15 @@ while run:
     # Mostrar estadísticas de los jugadores
     pintar_vida_barra(personaje_1.vida, 20, 20)
     pintar_vida_barra(personaje_2.vida, 580, 20)
-    draw_text("P1: " + str(score[0]), score_font, 'Red', 20, 60)
-    draw_text("P2: " + str(score[1]), score_font, 'Red', 580, 60)
+    escribir_texto("P1: " + str(score[0]), score_font, 'Red', 20, 60)
+    escribir_texto("P2: " + str(score[1]), score_font, 'Red', 580, 60)
 
     # Actualizar cuenta regresiva
-    if intro_count <= 0:
+    
         # Mover personajes
-        personaje_1.movimiento(pantalla_width, pantalla_height, PANTALLA, personaje_2, round_over, plataformas)
-        personaje_2.movimiento(pantalla_width, pantalla_height, PANTALLA, personaje_1, round_over, plataformas)
-    else:
-        # Mostrar temporizador de cuenta regresiva
-        draw_text(str(intro_count), count_font, 'Red', pantalla_width / 2, pantalla_height / 3)
-        # Actualizar temporizador de cuenta regresiva
-        if pygame.time.get_ticks() - last_count_update >= 1000:
-            intro_count -= 1
-            last_count_update = pygame.time.get_ticks()
+    personaje_1.movimiento(pantalla_width, pantalla_height, PANTALLA, personaje_2, round_over, plataformas)
+    personaje_2.movimiento(pantalla_width, pantalla_height, PANTALLA, personaje_1, round_over, plataformas)
+
 
     # Actualizar personajes
     personaje_1.update()
@@ -129,23 +117,36 @@ while run:
     personaje_2.draw(PANTALLA)
 
     # Verificar derrota de los jugadores
+     # Verificar derrota de los jugadores
     if round_over == False:
         if personaje_1.vivo == False:
             score[1] += 1
-            round_over = True
-            round_over_time = pygame.time.get_ticks()
+            if score[1] == 2:
+                round_over = True
+            else:
+                round_over = True
+                round_over_time = pygame.time.get_ticks()
         elif personaje_2.vivo == False:
             score[0] += 1
-            round_over = True
-            round_over_time = pygame.time.get_ticks()
+            if score[0] == 2:
+                round_over = True
+            else:
+                round_over = True
+                round_over_time = pygame.time.get_ticks()
     else:
-        # Mostrar imagen de victoria
-        PANTALLA.blit(victory_img, (360, 150))
-        if pygame.time.get_ticks() - round_over_time > ROUND_OVER_COOLDOWN:
-            round_over = False
-            intro_count = 3
-            personaje_1 = Personaje(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMACION_PASOS, sword_fx)
-            personaje_2 = Enemigo(2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMACION_PASOS, magic_fx)
+        if score[0] == 2 or score[1] == 2:
+            if score[0] == 2:
+                PANTALLA.blit(imagen_victoria, (360, 150))
+            else:
+                PANTALLA.blit(imagen_gameover, (115, 20))
+        else:
+            # Reiniciar el juego
+            if pygame.time.get_ticks() - round_over_time > ROUND_OVER_COOLDOWN:
+                round_over = False
+                intro_count = 3
+                personaje_1 = Personaje(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMACION_PASOS)
+                personaje_2 = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, espadachin_sheet, ESPADACHIN_ANIMACION_PASOS)
+
 
     # Debug: Dibujar rango de ataque del enemigo
     pintar_rango_ataque(personaje_2)
@@ -155,10 +156,12 @@ while run:
 
     if personaje_1.rect.colliderect(personaje_2.rango_ataque) and personaje_2.vivo:
       personaje_2.ataque(personaje_1, PANTALLA)
+      
     # Manejador de eventos
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            pygame.quit()
+            sys.exit(0)
 
     for plataforma in plataformas:
         plataforma.pintar(PANTALLA)
