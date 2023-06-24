@@ -21,7 +21,7 @@ class Enemigo():
         self.hit = False
         self.vida = 100
         self.vivo = True
-        self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
+        self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 3 * self.rect.width, self.rect.height)
         self.puede_saltar = True
 
     def cargar_imagenes(self, sprite_sheet, pasos_animacion):
@@ -41,7 +41,7 @@ class Enemigo():
         dy = 0
         self.corriendo = False
         self.tipo_ataque = 0
-        DISTANCIA_ENTRE_TARGET = 195
+        DISTANCIA_ENTRE_TARGET = 165
         distancia = target.rect.x - self.rect.x
         img = pygame.transform.flip(self.imagen, self.flip, False)
 
@@ -111,17 +111,18 @@ class Enemigo():
         if self.salto:
             return  # Si el enemigo está saltando, no puede atacar
 
-        if self.rect.right >= target.rect.left and self.rect.left <= target.rect.right:
-            if self.cooldown_ataque == 0:
-                self.golpeando = True
-                attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
-                if attacking_rect.colliderect(target.rect):
-                    pygame.draw.rect(surface, 'Green', attacking_rect)
-                    target.vida -= 10
-                    target.hit = True
-                self.cooldown_ataque = 70  # Set cooldown time to 60 frames
+        if self.cooldown_ataque == 0:
+            self.golpeando = True
+            attack_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip),
+                                      self.rect.y, 2 * self.rect.width, self.rect.height)
+            if attack_rect.colliderect(target.rect):
+                target.vida -= 10
+                target.hit = True
+            pygame.draw.rect(surface, 'Green', attack_rect)
+            self.cooldown_ataque = 60  # Set cooldown time to 60 frames
 
-            self.update()
+        self.update()
+
 
     def draw(self, surface):
         img = pygame.transform.flip(self.imagen, self.flip, False)
@@ -162,11 +163,11 @@ class Enemigo():
                 self.frame_index = 0
                 if self.accion == 3 or self.accion == 4:
                     self.golpeando = False
-                    self.cooldown_ataque = 20
+                    self.cooldown_ataque = 50
                 elif self.accion == 5:
                     self.hit = False
                     self.golpeando = False
-                    self.cooldown_ataque = 20
+                    self.cooldown_ataque = 50
 
     def update_accion(self, new_accion):
         if new_accion != self.accion:

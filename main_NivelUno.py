@@ -53,9 +53,9 @@ round_over = False
 ROUND_OVER_COOLDOWN = 2000
 
 # Definir variables de imagen
-WARRIOR_TAMAÑO = 126
+WARRIOR_TAMAÑO = 162
 WARRIOR_ESCALA = 4
-WARRIOR_DESPLAZAMIENTO = [92, 58] #12 para el lado derecho y 92 lado izquierdo
+WARRIOR_DESPLAZAMIENTO = [72, 56] #12 para el lado derecho y 92 lado izquierdo
 WARRIOR_DATA = [WARRIOR_TAMAÑO, WARRIOR_ESCALA, WARRIOR_DESPLAZAMIENTO]
 ESPADACHIN_TAMAÑO = 200
 ESPADACHIN_ESCALA = 3
@@ -67,7 +67,7 @@ ESPADACHIN_DATA = [ESPADACHIN_TAMAÑO, ESPADACHIN_ESCALA, ESPADACHIN_DESPLAZAMIE
 fondo = pygame.image.load('imagenes/69.webp')
 
 # Cargar spritesheets
-warrior_sheet = pygame.image.load('warrior\Sprites\el marcial.png')
+warrior_sheet = pygame.image.load('warrior\Sprites\warrior.png')
 espadachin_sheet = pygame.image.load('wizard/Sprites/espadachin.png')
 
 # Cargar imagen de victoria
@@ -75,7 +75,7 @@ imagen_victoria = pygame.image.load("imagenes/victory.png")
 imagen_gameover = pygame.image.load('imagenes/endgame.png')
 
 # Definir número de pasos en cada animación
-WARRIOR_ANIMACION_PASOS = [10, 8, 3, 7, 6, 3, 11]
+WARRIOR_ANIMACION_PASOS = [10, 8, 1, 7, 7, 3, 7]
 ESPADACHIN_ANIMACION_PASOS = [4, 8, 1, 3, 4, 3, 7]
 
 # Definir fuente
@@ -85,7 +85,7 @@ score_font = pygame.font.Font("fonts/turok.ttf", 30)
 personaje_1 = Personaje(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMACION_PASOS,)
 personaje_2 = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, espadachin_sheet, ESPADACHIN_ANIMACION_PASOS,)
 
-plataformas = []
+plataformas = [Plataforma(1, 280, 330, 10, (0, 0, 0, 0))]
 
 # Bucle principal del juego
 
@@ -149,13 +149,13 @@ while True:
 
 
     # Debug: Dibujar rango de ataque del enemigo
-    pintar_rango_ataque(personaje_2)
-    pintar_rango_ataque(personaje_1)
-    pintar_rectangulo(personaje_1)
-    pintar_rectangulo(personaje_2)
+    # pintar_rango_ataque(personaje_2)
+    # pintar_rango_ataque(personaje_1)
+    # pintar_rectangulo(personaje_1)
+    # pintar_rectangulo(personaje_2)
 
-    if personaje_1.rect.colliderect(personaje_2.rango_ataque) and personaje_2.vivo:
-      personaje_2.ataque(personaje_1, PANTALLA)
+    if personaje_2.rango_ataque.colliderect(personaje_1.rect) and personaje_2.vivo:
+        personaje_2.ataque(personaje_1, PANTALLA)
       
     # Manejador de eventos
     for event in pygame.event.get():

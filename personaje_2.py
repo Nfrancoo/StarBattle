@@ -23,10 +23,7 @@ class Personaje():
     self.vida = 100
     self.vivo = True
     self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
-
-
-    
-
+    self.en_plataforma = False
 
 
   def cargar_imagenes(self, sprite_sheet, animacion_pasos):
@@ -64,9 +61,10 @@ class Personaje():
           dx = VELOCIDAD
           self.corriendo = True
         #salto
-        if key[pygame.K_w] and self.salto == False:
+        if key[pygame.K_w] and self.salto == False and self.en_plataforma == False:
           self.velocidad_y = -30
           self.salto = True
+          # self.en_plataforma = False  # Ya no está en una plataforma
         #attack
         if key[pygame.K_r] or key[pygame.K_t]:
           self.attack(target)
@@ -102,15 +100,19 @@ class Personaje():
 
 
     for plataforma in plataformas:
-            if self.rect.colliderect(plataforma.rectangulo):
-                # Si está colisionando, detener el movimiento vertical y ajustar la posición
-                if self.velocidad_y > 0:
-                    self.rect.bottom = plataforma.rectangulo.top
-                    self.velocidad_y = 0
-                    self.salto = False
-                elif self.velocidad_y < 0:
-                    self.rect.top = plataforma.rectangulo.bottom
-                    self.velocidad_y = 0
+      if self.rect.colliderect(plataforma.rectangulo):
+          # Si está colisionando y no es por la parte inferior, detener el movimiento vertical
+          if self.velocidad_y > 0 and self.rect.bottom < plataforma.rectangulo.bottom:
+              self.rect.bottom = plataforma.rectangulo.top
+              self.velocidad_y = 0
+              self.salto = False
+              self.en_plataforma = True
+          elif self.velocidad_y < 0:
+              self.rect.top = plataforma.rectangulo.bottom
+              self.velocidad_y = 0
+      else:
+          self.en_plataforma = False
+              
 
     #update player position
     self.rect.x += dx
@@ -132,7 +134,10 @@ class Personaje():
       elif self.tipo_ataque == 2:
         self.update_accion(4)
     elif self.salto == True:
-      self.update_accion(2)#2:salto
+        if self.en_plataforma == True:
+            self.salto = False
+        else:
+          self.update_accion(2)#2:salto
     elif self.corriendo == True:
       self.update_accion(1)#1:run
     else:
