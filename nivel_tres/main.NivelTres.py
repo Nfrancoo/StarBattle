@@ -1,7 +1,7 @@
 import pygame
 import sys
-from personaje_2 import Personaje
-from enemigo_2 import Enemigo
+from personajeNT import Personaje
+from enemigoNT import Enemigo
 from plataforma import Plataforma
 
 pygame.init()
@@ -85,7 +85,7 @@ score_font = pygame.font.Font("fonts/turok.ttf", 30)
 personaje_1 = Personaje(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMACION_PASOS,)
 personaje_2 = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, espadachin_sheet, ESPADACHIN_ANIMACION_PASOS,)
 
-plataformas = [Plataforma(1, 280, 330, 10, (0, 0, 0, 0))]
+plataformas = [Plataforma(1, 280, 310, 10, (0, 0, 0, 0))]
 
 # Bucle principal del juego
 
@@ -149,10 +149,10 @@ while True:
 
 
     # Debug: Dibujar rango de ataque del enemigo
-    # pintar_rango_ataque(personaje_2)
-    # pintar_rango_ataque(personaje_1)
-    # pintar_rectangulo(personaje_1)
-    # pintar_rectangulo(personaje_2)
+    pintar_rango_ataque(personaje_2)
+    pintar_rango_ataque(personaje_1)
+    pintar_rectangulo(personaje_1)
+    pintar_rectangulo(personaje_2)
 
     if personaje_2.rango_ataque.colliderect(personaje_1.rect) and personaje_2.vivo:
         personaje_2.ataque(personaje_1, PANTALLA)

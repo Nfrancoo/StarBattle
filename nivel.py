@@ -1,9 +1,9 @@
 import pygame
 import sys
 from pygame import mixer
-from personaje_2 import Personaje
-from enemigo_2 import Enemigo
-from plataforma import Plataforma
+from nivel_uno.personajeNU import Personaje
+from nivel_uno.enemigoNU import Enemigo
+from nivel_uno.plataforma import Plataforma
 
 # ...
 

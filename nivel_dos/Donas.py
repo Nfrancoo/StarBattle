@@ -18,7 +18,7 @@ def crear_lista_donas(cantidad):
     for i in range(cantidad):
         x = random.randrange(0, 740, 60 )
         y = random.randrange(-1000, 0, 60)
-        diccionario = crear(x, y, 60,60,'dona.png')
+        diccionario = crear(x, y, 60,60,'imagenes/bomba.png')
         lista_donas.append(diccionario)
     return lista_donas
 
@@ -31,13 +31,14 @@ def actualizar_pantalla(lista_donas, personaje, ventana):
     for dona in lista_donas:
         if personaje.rect.colliderect(dona['rectangulo']):
             # personaje['puntaje'] += 100
-            desaparecer_dona(dona)
+            desaparecer_dona(dona,personaje)
         elif dona['rectangulo'].y > 800:
-            desaparecer_dona(dona)
+            desaparecer_dona(dona,personaje)
 
-def desaparecer_dona(dona):
+def desaparecer_dona(dona,personaje):
     dona['rectangulo'].x = random.randrange(0, 740, 60)
     dona['rectangulo'].y = random.randrange(-1000, 0, 60)
+    
 
 
     

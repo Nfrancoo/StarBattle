@@ -1,9 +1,8 @@
 import pygame
 import sys
-from personaje_2 import Personaje
-from enemigo_2 import Enemigo
+from personajeNU import Personaje
+from enemigoNU import Enemigo
 from plataforma import Plataforma
-from Donas import *
 
 pygame.init()
 
@@ -46,8 +45,6 @@ pygame.display.set_caption('StarBattle')
 # Reloj
 reloj = pygame.time.Clock()
 FPS = 60
-tick = pygame.USEREVENT + 0 #evento propio
-pygame.time.set_timer(tick, 100)
 
 # Definir variables del juego
 last_count_update = pygame.time.get_ticks()
@@ -56,21 +53,21 @@ round_over = False
 ROUND_OVER_COOLDOWN = 2000
 
 # Definir variables de imagen
-WARRIOR_TAMAÑO = 155
-WARRIOR_ESCALA = 2
-WARRIOR_DESPLAZAMIENTO = [52, 21] #12 para el lado derecho y 92 lado izquierdo
+WARRIOR_TAMAÑO = 162
+WARRIOR_ESCALA = 4
+WARRIOR_DESPLAZAMIENTO = [72, 56] #12 para el lado derecho y 92 lado izquierdo
 WARRIOR_DATA = [WARRIOR_TAMAÑO, WARRIOR_ESCALA, WARRIOR_DESPLAZAMIENTO]
 ESPADACHIN_TAMAÑO = 200
 ESPADACHIN_ESCALA = 3
-ESPADACHIN_DESPLAZAMIENTO = [81, 88]
+ESPADACHIN_DESPLAZAMIENTO = [81, 116]
 ESPADACHIN_DATA = [ESPADACHIN_TAMAÑO, ESPADACHIN_ESCALA, ESPADACHIN_DESPLAZAMIENTO]
 
 
 # Cargar imagen de fondo
-fondo = pygame.image.load('imagenes/fondoGif.gif')
+fondo = pygame.image.load('imagenes/69.webp')
 
 # Cargar spritesheets
-warrior_sheet = pygame.image.load('warrior\Sprites\elRey.png')
+warrior_sheet = pygame.image.load('warrior\Sprites\warrior.png')
 espadachin_sheet = pygame.image.load('wizard/Sprites/espadachin.png')
 
 # Cargar imagen de victoria
@@ -78,7 +75,7 @@ imagen_victoria = pygame.image.load("imagenes/victory.png")
 imagen_gameover = pygame.image.load('imagenes/endgame.png')
 
 # Definir número de pasos en cada animación
-WARRIOR_ANIMACION_PASOS = [6, 8, 2, 6, 6, 4, 10]
+WARRIOR_ANIMACION_PASOS = [10, 8, 1, 7, 7, 3, 7]
 ESPADACHIN_ANIMACION_PASOS = [4, 8, 1, 3, 4, 3, 7]
 
 # Definir fuente
@@ -88,9 +85,7 @@ score_font = pygame.font.Font("fonts/turok.ttf", 30)
 personaje_1 = Personaje(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMACION_PASOS,)
 personaje_2 = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, espadachin_sheet, ESPADACHIN_ANIMACION_PASOS,)
 
-plataformas = []#Plataforma(1, 280, 330, 10, (0, 0, 0, 0))]
-
-lista_donas = crear_lista_donas(5)
+plataformas = [Plataforma(1, 280, 310, 10, (0, 0, 0, 0))]
 
 # Bucle principal del juego
 
@@ -121,14 +116,8 @@ while True:
     personaje_1.draw(PANTALLA)
     personaje_2.draw(PANTALLA)
 
-    # Verificar colisión de las donas con los personajes
-    for dona in lista_donas:
-        if dona['rectangulo'].colliderect(personaje_1.rect):
-            personaje_1.vida -= 5
-        elif dona['rectangulo'].colliderect(personaje_2.rect):
-            personaje_2.vida += 5
-
     # Verificar derrota de los jugadores
+     # Verificar derrota de los jugadores
     if round_over == False:
         if personaje_1.vivo == False:
             score[1] += 1
@@ -158,11 +147,12 @@ while True:
                 personaje_1 = Personaje(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMACION_PASOS)
                 personaje_2 = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, espadachin_sheet, ESPADACHIN_ANIMACION_PASOS)
 
+
     # Debug: Dibujar rango de ataque del enemigo
-    pintar_rango_ataque(personaje_2)
-    pintar_rango_ataque(personaje_1)
-    pintar_rectangulo(personaje_1)
-    pintar_rectangulo(personaje_2)
+    # pintar_rango_ataque(personaje_2)
+    # pintar_rango_ataque(personaje_1)
+    # pintar_rectangulo(personaje_1)
+    # pintar_rectangulo(personaje_2)
 
     if personaje_2.rango_ataque.colliderect(personaje_1.rect) and personaje_2.vivo:
         personaje_2.ataque(personaje_1, PANTALLA)
@@ -172,18 +162,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit(0)
-        if event.type == pygame.USEREVENT:
-            if event.type == tick:
-                update(lista_donas)
-
-    for dona in lista_donas:
-        PANTALLA.blit(dona['superficie'], dona['rectangulo'])
-
-    actualizar_pantalla(lista_donas, personaje_1, PANTALLA)
-    actualizar_pantalla(lista_donas, personaje_2, PANTALLA)
-    # puntaje = score_font.render('SCORE: {0}'.format(personaje_1['puntaje']), True, (255, 0, 0))
-    # PANTALLA.blit(puntaje, (10, 10))  # Mostrar puntuación en la esquina superior izquierda
-
 
     for plataforma in plataformas:
         plataforma.pintar(PANTALLA)

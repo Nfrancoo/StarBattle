@@ -142,6 +142,9 @@ class Personaje():
       self.update_accion(1)#1:run
     else:
       self.update_accion(0)#0:idle
+    self.rango_ataque.x = self.rect.centerx - (2 * self.rect.width * self.flip)
+    self.rango_ataque.centery = self.rect.centery
+
 
     animation_cooldown = 50
     #update imagen
