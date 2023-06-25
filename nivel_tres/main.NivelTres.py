@@ -44,7 +44,6 @@ pantalla_height = 600
 
 PANTALLA = pygame.display.set_mode((pantalla_width, pantalla_height))
 pygame.display.set_caption('StarBattle')
-BACKGROUND_COLOR = pygame.Color('black')
 FPS = 60
 clock = pygame.time.Clock()
 
@@ -65,23 +64,23 @@ ESPADACHIN_DESPLAZAMIENTO = [61, 106]
 ESPADACHIN_DATA = [ESPADACHIN_TAMAÑO, ESPADACHIN_ESCALA, ESPADACHIN_DESPLAZAMIENTO]
 
 # Cargar spritesheets
-warrior_sheet = pygame.image.load('warrior\Sprites\warrior.png')
-espadachin_sheet = pygame.image.load('wizard/Sprites/futurista.png')
+warrior_sheet = pygame.image.load('sheets_personajes/warrior.png')
+espadachin_sheet = pygame.image.load('sheets_enemigo/futurista.png')
 
 
 # Cargar imagen de victoria
-imagen_victoria = pygame.image.load("imagenes/victory_blanco.png")
-imagen_gameover = pygame.image.load('imagenes\endgame_blanco.png')
+imagen_victoria = pygame.image.load("fondos/imagenes/victory_blanco.png")
+imagen_gameover = pygame.image.load('fondos/imagenes/endgame_blanco.png')
 
 # Definir número de pasos en cada animación
 WARRIOR_ANIMACION_PASOS = [10, 8, 1, 7, 7, 3, 7]
-ESPADACHIN_ANIMACION_PASOS = [10, 8, 3, 7, 7, 4, 7]
+ESPADACHIN_ANIMACION_PASOS = [10, 8, 3, 7, 7, 4, 10]
 
 # Definir fuente
 score_font = pygame.font.Font("fonts/turok.ttf", 30)
 
 
-fondo = load_images(path='lista_background')
+fondo = load_images(path='fondos/lista_background')
 background = AnimatedBackground(position=(0, 0), images=fondo, delay=0.1)
 all_sprites = pygame.sprite.Group(background)
 

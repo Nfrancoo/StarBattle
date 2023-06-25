@@ -64,15 +64,15 @@ ESPADACHIN_DATA = [ESPADACHIN_TAMAÑO, ESPADACHIN_ESCALA, ESPADACHIN_DESPLAZAMIE
 
 
 # Cargar imagen de fondo
-fondo = pygame.image.load('imagenes/69.webp')
+fondo = pygame.image.load('fondos/imagenes/69.webp')
 
 # Cargar spritesheets
-warrior_sheet = pygame.image.load('warrior\Sprites\warrior.png')
-espadachin_sheet = pygame.image.load('wizard/Sprites/espadachin.png')
+warrior_sheet = pygame.image.load('sheets_personajes/warrior.png')
+espadachin_sheet = pygame.image.load('sheets_enemigo/espadachin.png')
 
 # Cargar imagen de victoria
-imagen_victoria = pygame.image.load("imagenes/victory.png")
-imagen_gameover = pygame.image.load('imagenes/endgame.png')
+imagen_victoria = pygame.image.load("fondos/imagenes/victory.png")
+imagen_gameover = pygame.image.load('fondos/imagenes/endgame.png')
 
 # Definir número de pasos en cada animación
 WARRIOR_ANIMACION_PASOS = [10, 8, 1, 7, 7, 3, 7]
@@ -153,10 +153,10 @@ while True:
 
 
     # Debug: Dibujar rango de ataque del enemigo
-    # pintar_rango_ataque(personaje_2)
-    # pintar_rango_ataque(personaje_1)
-    # pintar_rectangulo(personaje_1)
-    # pintar_rectangulo(personaje_2)
+    pintar_rango_ataque(personaje_2)
+    pintar_rango_ataque(personaje_1)
+    pintar_rectangulo(personaje_1)
+    pintar_rectangulo(personaje_2)
 
     if personaje_2.rango_ataque.colliderect(personaje_1.rect) and personaje_2.vivo:
         personaje_2.ataque(personaje_1, PANTALLA)

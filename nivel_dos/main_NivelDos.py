@@ -60,26 +60,26 @@ WARRIOR_TAMAÑO = 155
 WARRIOR_ESCALA = 2
 WARRIOR_DESPLAZAMIENTO = [50, 51] #12 para el lado derecho y 92 lado izquierdo
 WARRIOR_DATA = [WARRIOR_TAMAÑO, WARRIOR_ESCALA, WARRIOR_DESPLAZAMIENTO]
-ESPADACHIN_TAMAÑO = 200
+ESPADACHIN_TAMAÑO = 250
 ESPADACHIN_ESCALA = 3
-ESPADACHIN_DESPLAZAMIENTO = [81, 108]
+ESPADACHIN_DESPLAZAMIENTO = [111, 100]
 ESPADACHIN_DATA = [ESPADACHIN_TAMAÑO, ESPADACHIN_ESCALA, ESPADACHIN_DESPLAZAMIENTO]
 
 
 # Cargar imagen de fondo
-fondo = pygame.image.load('imagenes/fondo(2).jpg')
+fondo = pygame.image.load('fondos/imagenes/fondo(2).jpg')
 
 # Cargar spritesheets
-warrior_sheet = pygame.image.load('warrior\Sprites\elRey.png')
-espadachin_sheet = pygame.image.load('wizard/Sprites/espadachin.png')
+warrior_sheet = pygame.image.load('sheets_personajes/elRey.png')
+espadachin_sheet = pygame.image.load('sheets_enemigo/wizard.png')
 
 # Cargar imagen de victoria
-imagen_victoria = pygame.image.load("imagenes/victory.png")
-imagen_gameover = pygame.image.load('imagenes/endgame.png')
+imagen_victoria = pygame.image.load("fondos/imagenes/victory.png")
+imagen_gameover = pygame.image.load('fondos/imagenes/endgame.png')
 
 # Definir número de pasos en cada animación
 WARRIOR_ANIMACION_PASOS = [6, 8, 2, 6, 6, 4, 10]
-ESPADACHIN_ANIMACION_PASOS = [4, 8, 1, 3, 4, 3, 7]
+ESPADACHIN_ANIMACION_PASOS = [8, 8, 1, 8, 8, 3, 7]
 
 # Definir fuente
 score_font = pygame.font.Font("fonts/turok.ttf", 30)
@@ -159,10 +159,10 @@ while True:
                 personaje_2 = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, espadachin_sheet, ESPADACHIN_ANIMACION_PASOS)
 
     # Debug: Dibujar rango de ataque del enemigo
-    # pintar_rango_ataque(personaje_2)
-    # pintar_rango_ataque(personaje_1)
-    # pintar_rectangulo(personaje_1)
-    # pintar_rectangulo(personaje_2)
+    pintar_rango_ataque(personaje_2)
+    pintar_rango_ataque(personaje_1)
+    pintar_rectangulo(personaje_1)
+    pintar_rectangulo(personaje_2)
 
     if personaje_2.rango_ataque.colliderect(personaje_1.rect) and personaje_2.vivo:
         personaje_2.ataque(personaje_1)

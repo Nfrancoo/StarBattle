@@ -80,6 +80,11 @@ class Enemigo():
             self.rect.y += dy
             self.rango_ataque.center = self.rect.center
 
+            # if self.rect.left < self.rect.left:
+            #     self.rect.left = self.rect.left
+            # if self.rect.right > self.rect.right:
+            #     self.rect.right = self.rect.right
+
             # Lógica de salto
             if target.salto and self.velocidad_y == 0 and self.puede_saltar:
                 self.velocidad_y = -30

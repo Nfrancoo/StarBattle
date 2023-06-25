@@ -18,7 +18,7 @@ def crear_lista_donas(cantidad):
     for i in range(cantidad):
         x = random.randrange(0, 740, 60 )
         y = random.randrange(-1000, 0, 60)
-        diccionario = crear(x, y, 60,60,'imagenes/bomba.png')
+        diccionario = crear(x, y, 60,60,'fondos/imagenes/bomba.png')
         lista_donas.append(diccionario)
     return lista_donas
 
