@@ -19,7 +19,7 @@ class Enemigo():
         self.tipo_ataque = 0
         self.cooldown_ataque = 0
         self.hit = False
-        self.vida = 100
+        self.vida = 20
         self.vivo = True
         self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 3 * self.rect.width, self.rect.height)
         self.puede_saltar = True

@@ -91,6 +91,10 @@ plataformas = [Plataforma(1, 280, 310, 10, (0, 0, 0, 0))]
 
 while True:
     reloj.tick(FPS)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit(0)
 
     # Dibujar fondo
     pintar_fondo()
@@ -156,12 +160,6 @@ while True:
 
     if personaje_2.rango_ataque.colliderect(personaje_1.rect) and personaje_2.vivo:
         personaje_2.ataque(personaje_1, PANTALLA)
-      
-    # Manejador de eventos
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit(0)
 
     for plataforma in plataformas:
         plataforma.pintar(PANTALLA)
