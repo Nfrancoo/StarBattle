@@ -64,7 +64,7 @@ ESPADACHIN_DATA = [ESPADACHIN_TAMAÑO, ESPADACHIN_ESCALA, ESPADACHIN_DESPLAZAMIE
 
 
 # Cargar imagen de fondo
-fondo = pygame.image.load('imagenes/69.webp')
+fondo = pygame.image.load('imagenes/aguita.gif')
 
 # Cargar spritesheets
 warrior_sheet = pygame.image.load('warrior\Sprites\warrior.png')
@@ -117,7 +117,6 @@ while True:
     personaje_2.draw(PANTALLA)
 
     # Verificar derrota de los jugadores
-     # Verificar derrota de los jugadores
     if round_over == False:
         if personaje_1.vivo == False:
             score[1] += 1
@@ -167,7 +166,7 @@ while True:
         plataforma.pintar(PANTALLA)
 
     # Actualizar pantalla
-    pygame.display.update()
+    pygame.display.flip()
 
 # Salir de pygame
 pygame.quit()

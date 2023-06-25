@@ -119,7 +119,7 @@ class Enemigo():
                 target.vida -= 10
                 target.hit = True
             pygame.draw.rect(surface, 'Green', attack_rect)
-            self.cooldown_ataque = 60  # Set cooldown time to 60 frames
+            self.cooldown_ataque = 60
 
         self.update()
 
