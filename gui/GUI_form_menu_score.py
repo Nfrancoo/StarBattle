@@ -23,10 +23,10 @@ class FormMenuScore(Form):
 
         lbl_jugador = Label(self._slave, x=margen_x + 10, y=20, w = w/2-margen_x-10, h=50,
                         text='Jugadores', font='Verdana', font_size=30, font_color='White',
-                        path_image= 'API FORMS/bar.png')
+                        path_image= 'gui/bar.png')
         lbl_puntaje = Label(self._slave, x=margen_x + 10 + w/2-margen_x-10, y=20, w = w/2-margen_x-10, h=50,
                         text='Puntaje', font='Verdana', font_size=30, font_color='White',
-                        path_image= 'API FORMS/bar.png')
+                        path_image= 'gui/bar.png')
         
         self.lista_widgets.append(lbl_jugador)
         self.lista_widgets.append(lbl_puntaje)
@@ -39,7 +39,7 @@ class FormMenuScore(Form):
                cadena = ''
                cadena = f'{s}'
                jugador = Label(self._slave, pos_inicial_x, pos_inicial_y,w/2-margen_x, 100, cadena, 'Verdana', 
-                               30, 'White', 'API FORMS/Table.png')
+                               30, 'White', 'gui\Table.png')
                self.lista_widgets.append(jugador)
                pos_inicial_x += w/2 - margen_x               
             pos_inicial_y += 100 + espacio
@@ -59,7 +59,7 @@ class FormMenuScore(Form):
                                         font= "Verdana",
                                         font_size= 15,
                                         font_color= (0,255,0),
-                                        path_image= 'API FORMS\home.png' )
+                                        path_image= 'gui\home.png' )
         
         self.lista_widgets.append(self._btn_home)
         

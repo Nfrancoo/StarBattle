@@ -122,11 +122,6 @@ while True:
     personaje_2.draw(PANTALLA)
 
     # Verificar colisión de las donas con los personajes
-    for dona in lista_donas:
-        if dona['rectangulo'].colliderect(personaje_1.rect):
-            personaje_1.vida -= 5
-        elif dona['rectangulo'].colliderect(personaje_2.rect):
-            personaje_2.vida += 5
 
     # Verificar derrota de los jugadores
     if round_over == False:
