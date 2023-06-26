@@ -24,13 +24,14 @@ class Enemigo():
         self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 3 * self.rect.width, self.rect.height)
         self.puede_saltar = True
 
-    def cargar_imagenes(self, sprite_sheet, pasos_animacion):
+    def cargar_imagenes(self, sprite_sheet, animacion_pasos):
+        #extraer imagenes del spritesheet
         lista_animaciones = []
-        for y, animacion in enumerate(pasos_animacion):
+        for y, animation in enumerate(animacion_pasos):
             temp_img_list = []
-            for x in range(animacion):
+            for x in range(animation):
                 temp_img = sprite_sheet.subsurface(x * self.size, y * self.size, self.size, self.size)
-                temp_img_list.append(pygame.transform.scale(temp_img, (self.size * self.imagen_escalada, self.size * self.imagen_escalada)))
+                temp_img_list.append(pygame.transform.scale(temp_img, (self.size* self.imagen_escalada, self.size * self.imagen_escalada)))
             lista_animaciones.append(temp_img_list)
         return lista_animaciones
 
