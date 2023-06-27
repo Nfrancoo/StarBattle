@@ -48,8 +48,8 @@ class NivelUno(Nivel):
         ESPADACHIN_ANIMACION_PASOS = [4, 8, 1, 3, 4, 3, 7]
 
         # Crear instancias de personaje y enemigo
-        jugador = Personaje(1, 200, 310, False, WARRIOR_DATA, personaje_principal, WARRIOR_ANIMACION_PASOS)
-        enemigo = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, enemigo_sheet, ESPADACHIN_ANIMACION_PASOS)
+        jugador = Personaje(200, 310, False, WARRIOR_DATA, personaje_principal, WARRIOR_ANIMACION_PASOS)
+        enemigo = Enemigo(700, 310, True, ESPADACHIN_DATA, enemigo_sheet, ESPADACHIN_ANIMACION_PASOS)
 
         # Crear lista de plataformas
         lista_plataformas = [Plataforma(1, 280, 310, 10, (0, 0, 0, 0))]

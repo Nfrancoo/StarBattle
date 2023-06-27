@@ -28,13 +28,12 @@ class NivelTres(Nivel):
         ESPADACHIN_DATA = [ESPADACHIN_TAMAÑO, ESPADACHIN_ESCALA, ESPADACHIN_DESPLAZAMIENTO]
 
 
-
         # Cargar imagen de victoria
         imagen_victoria = pygame.image.load("fondos/imagenes/victory_blanco.png")
         imagen_gameover = pygame.image.load('fondos/imagenes/endgame_blanco.png')
 
-        img_fondo = load_images(path='fondos/lista_background')
-        background = AnimatedBackground(position=(0, 0), images=img_fondo, delay=0.1)
+        img_fondo = load_images('fondos/lista_background')
+        background = AnimatedBackground((0, 0), img_fondo, 0.1)
         all_sprites = pygame.sprite.Group(background)
 
         # Definir fuente
@@ -50,8 +49,8 @@ class NivelTres(Nivel):
 
 
         # Crear instancias de personaje y enemigo
-        jugador = Personaje(1, 200, 310, False, WARRIOR_DATA, personaje_principal, WARRIOR_ANIMACION_PASOS)
-        enemigo = Enemigo(2, 700, 310, True, ESPADACHIN_DATA, enemigo_sheet, ESPADACHIN_ANIMACION_PASOS)
+        jugador = Personaje(200, 310, False, WARRIOR_DATA, personaje_principal, WARRIOR_ANIMACION_PASOS)
+        enemigo = Enemigo(700, 310, True, ESPADACHIN_DATA, enemigo_sheet, ESPADACHIN_ANIMACION_PASOS)
 
         # Crear lista de plataformas
         lista_plataformas = []

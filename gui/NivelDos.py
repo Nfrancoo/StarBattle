@@ -50,8 +50,8 @@ class NivelDos(Nivel):
         score_font = pygame.font.Font("fonts/turok.ttf", 30)
 
         # Crear dos instancias de personaje
-        jugador = Personaje(1, 200, 280, False, PERSONAJE_DATA, personaje_sheet, PERSONAJE_ANIMACION_PASOS,)
-        enemigo = Enemigo(2, 700, 310, True, ENEMIGO_DATA, enemigo_sheet, ENEMIGO_ANIMACION_PASOS,)
+        jugador = Personaje(200, 280, False, PERSONAJE_DATA, personaje_sheet, PERSONAJE_ANIMACION_PASOS,)
+        enemigo = Enemigo(700, 310, True, ENEMIGO_DATA, enemigo_sheet, ENEMIGO_ANIMACION_PASOS,)
 
         lista_plataformas = []#Plataforma(1, 280, 330, 10, (0, 0, 0, 0))]
 

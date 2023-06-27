@@ -67,7 +67,7 @@ class formNiveles(Form):
                                           path_image="gui\home.png",
                                           onclick= self.btn_home_click,
                                           onclick_param="",
-                                          text="laladsa",
+                                          text="",
                                           font="Arial",
                                           )
         

@@ -1,7 +1,7 @@
 import pygame
 
 class Enemigo():
-    def __init__(self, player, x, y, flip, data, sprite_sheet, pasos_animacion):
+    def __init__(self, x, y, flip, data, sprite_sheet, pasos_animacion):
         self.size = data[0]
         self.imagen_escalada = data[1]
         self.desplazamiento = data[2]

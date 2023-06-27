@@ -153,36 +153,5 @@ class Nivel:
         img = font.render(text, True, color)
         self._slave.blit(img, (x, y))
 
-    def dibujar_plataformas(self):
-        for plataforma in self.plataformas:
-            plataforma.pintar(self._slave)
-
     def pintar_rango_ataque(self, personaje):
         pygame.draw.rect(self._slave, (0, 255, 0), personaje.rango_ataque, 2)
-
-    def dibujar_personajes(self):
-        self.jugador.draw(self._slave)
-        self.enemigo.draw(self._slave)
-
-    def verificar_derrota(self):
-        if self.round_over == False:
-            if self.jugador.vivo == False:
-                return 2  # Jugador 2 gana la ronda
-            elif self.enemigo.vivo == False:
-                return 1  # Jugador 1 gana la ronda
-        return 0  # La ronda no ha terminado
-
-    def reiniciar_ronda(self):
-        self.round_over = False
-        self.jugador.reset()
-
-    def actualizar(self):
-        self.jugador.update()
-        self.enemigo.update()
-
-    def ataque_enemigo(self):
-        if self.enemigo.rango_ataque.colliderect(self.jugador.rect) and self.enemigo.vivo:
-            self.enemigo.ataque(self.jugador, self._slave)
-
-    def actualizar_pantalla(self):
-        pygame.display.update()

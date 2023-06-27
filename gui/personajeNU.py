@@ -1,8 +1,7 @@
 import pygame
 
 class Personaje():
-  def __init__(self, player, x, y, flip, data, sprite_sheet, animacion_pasos):
-    self.player = player
+  def __init__(self, x, y, flip, data, sprite_sheet, animacion_pasos):
     self.tamaño = data[0]
     self.imagen_escalada = data[1]
     self.desplazamiento = data[2]
@@ -51,7 +50,6 @@ class Personaje():
 
     #solo puede realizar otras acciones si no está atacando actualmente
     if self.atacando == False and self.vivo == True and round_over == False:
-      if self.player == 1:
         #movimiento
         if key[pygame.K_a]:
           dx = -VELOCIDAD
@@ -113,7 +111,7 @@ class Personaje():
           self.en_plataforma = False
               
 
-    #update pisicion
+    #update posicion
     self.rect.x += dx
     self.rect.y += dy
 

@@ -25,10 +25,6 @@ clock = pygame.time.Clock()
 form_prueba = FormPrueba(PANTALLA, 50, 100, 900, 350, 'Gold', 'Magenta', 5, True)
 
 
-
-# Fuente para el texto
-score_font = pygame.font.Font("fonts/turok.ttf", 30)
-
 # Bucle principal del juego
 while True:
     lista_eventos = pygame.event.get()
