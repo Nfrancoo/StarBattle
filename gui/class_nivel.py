@@ -191,4 +191,4 @@ class Nivel:
             with open(nombre_archivo, 'w') as file:
                 json.dump(datos, file, indent=4)
         except PermissionError:
-            print('No se pudo guardar el archivo.')
+            print('Completado todos los niveles, felicidades')

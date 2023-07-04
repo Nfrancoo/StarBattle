@@ -32,7 +32,7 @@ class FormPrueba(Form):
         self.btn_niveles = Button_Image(self._slave, x, y, 830, 50, 50, 50, "gui\play_BTN.png", self.btn_imagen_click,
                                         "niveles")
         # self.btn_settings = Button_Image(self._slave,x,y,730,20,170,170,"zyro-image-PhotoRoom.png-PhotoRoom.png",self.btn_settings_click, "settings")
-        self.picture_box = PictureBox(self._slave, 0, 0, 900, 720, "fondos/imagenes/fondo.png")
+        self.picture_box = PictureBox(self._slave, 0, 0, 1000, 600, "fondos/imagenes/fondo.png")
         ######
 
         # Agrego los controles a la lista
@@ -86,7 +86,7 @@ class FormPrueba(Form):
     #     pygame.mixer.music.set_volume(self.volumen)
 
     def btn_imagen_click(self,text):
-        formulario_niveles = formNiveles(self._master,100,25,800,550,"Black","Black",True,"api_forms\contenedor_niveles.png")
+        formulario_niveles = formNiveles(self._master,100,25,800,550,"Black","Black",True,"gui\Window.png")
         self.show_dialog(formulario_niveles)
         
     # def btn_settings_click(self,text):

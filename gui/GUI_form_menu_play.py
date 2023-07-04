@@ -24,7 +24,7 @@ class formNiveles(Form):
         self.nivel_dos_completado = os.path.exists("datos_partida_NivelDos.json")
         self.nivel_tres_completado = os.path.exists("datos_partida_NivelTres.json")
         self.nivel_cuatro_completado = os.path.exists("datos_partida_NivelCuatro.json")
-        
+
         # Agregar lógica para desbloquear el NivelDos si el NivelUno está completado
         if self.nivel_uno_completado:
             self.nivel_dos_desbloqueado = True
@@ -32,7 +32,7 @@ class formNiveles(Form):
             self.nivel_tres_desbloqueado = True
         if self.nivel_tres_completado:
             self.nivel_cuatro_desbloqueado = True
-        
+
         self.btn_nivel_uno = Button_Image(screen=self._slave,
                                           master_x= x,
                                           master_y= y,
@@ -104,17 +104,20 @@ class formNiveles(Form):
                                           onclick= self.btn_home_click,
                                           onclick_param="",
                                           text="",
-                                          font="Arial",
-                                          )
+                                          font="Arial")
         
         self.lista_widgets.append(self.btn_nivel_uno)
         self.lista_widgets.append(self.btn_nivel_dos)
         self.lista_widgets.append(self.btn_nivel_tres)
         self.lista_widgets.append(self.btn_nivel_cuatro)
         self.lista_widgets.append(self.btn_home) 
-        
-    def on(self,parametro):
-        print("hola",parametro)
+    
+    def verificar_archivo_json(self, nombre_nivel):
+        nombre_archivo = f"datos_partida_{nombre_nivel}.json"
+        return os.path.exists(nombre_archivo)
+    
+    def on(self, parametro):
+        print("hola", parametro)
         
     def update(self, lista_eventos):
         if self.verificar_dialog_result():
@@ -124,46 +127,47 @@ class formNiveles(Form):
         else:
             self.hijo.update(lista_eventos)
     
+    def actualizar_estado_niveles(self):
+        # Verificar desbloqueo de niveles
+        self.nivel_dos_desbloqueado = self.nivel_uno_completado
+        self.nivel_tres_desbloqueado = self.nivel_dos_completado
+        self.nivel_cuatro_desbloqueado = self.nivel_tres_completado
+
+        # Actualizar estado de completado de niveles
+        self.nivel_uno_completado = os.path.exists("datos_partida_NivelUno.json")
+        self.nivel_dos_completado = os.path.exists("datos_partida_NivelDos.json")
+        self.nivel_tres_completado = os.path.exists("datos_partida_NivelTres.json")
+        self.nivel_cuatro_completado = os.path.exists("datos_partida_NivelCuatro.json")
+    
     def entrar_nivel(self, nombre_nivel):
-        nivel_completado = False
         nivel_actual = None
-        
-        if nombre_nivel == "nivel_uno" and self.nivel_uno_desbloqueado:
-            nivel_actual = "nivel_uno"
+
+        if (
+            nombre_nivel == "nivel_uno" and self.nivel_uno_desbloqueado or
+            nombre_nivel == "nivel_dos" and self.nivel_dos_desbloqueado or
+            nombre_nivel == "nivel_tres" and self.nivel_tres_desbloqueado or
+            nombre_nivel == "nivel_cuatro" and self.nivel_cuatro_desbloqueado
+        ):
+            nivel_actual = nombre_nivel
             nivel = self.manejador_niveles.get_nivel(nombre_nivel)
             contenedor_nivel = ContenedorNivel(self._master, nivel)
             self.show_dialog(contenedor_nivel)
-        elif nombre_nivel == "nivel_dos" and self.nivel_dos_desbloqueado:
-            nivel_actual = "nivel_dos"
-            nivel = self.manejador_niveles.get_nivel(nombre_nivel)
-            contenedor_nivel = ContenedorNivel(self._master, nivel)
-            self.show_dialog(contenedor_nivel)
-        elif nombre_nivel == "nivel_tres" and self.nivel_tres_desbloqueado:
-            nivel_actual = "nivel_tres"
-            nivel = self.manejador_niveles.get_nivel(nombre_nivel)
-            contenedor_nivel = ContenedorNivel(self._master, nivel)
-            self.show_dialog(contenedor_nivel)
-        elif nombre_nivel == "nivel_cuatro" and self.nivel_cuatro_desbloqueado:
-            nivel_actual = "nivel_cuatro"
-            nivel = self.manejador_niveles.get_nivel(nombre_nivel)
-            contenedor_nivel = ContenedorNivel(self._master, nivel)
-            self.show_dialog(contenedor_nivel)
-        
+
         if nivel_actual is not None:
-            # Verificar si el nivel actual completado es el último nivel disponible
-            if nivel_actual == "nivel_cuatro":
-                print("¡Felicidades! Has completado todos los niveles.")
-                # Realizar acciones adicionales aquí, como mostrar un mensaje de victoria o regresar al menú principal
-                
-            # Desbloquear el siguiente nivel si no es el último
-            if nivel_actual == "nivel_uno":
-                self.nivel_dos_desbloqueado = True
-            elif nivel_actual == "nivel_dos":
-                self.nivel_tres_desbloqueado = True
-            elif nivel_actual == "nivel_tres":
-                self.nivel_cuatro_desbloqueado = True
-            
-    def btn_home_click(self,param):
+            # Verificar si el nivel actual completado es el nivel uno
+            if nivel_actual != "nivel_uno" and self.verificar_archivo_json(f"Nivel{nombre_nivel.capitalize()}"):
+                nivel_desbloqueado = f"nivel_{nombre_nivel}_desbloqueado"
+                setattr(self, nivel_desbloqueado, True)
+
+        # Actualizar el estado de completado de los niveles
+        self.nivel_uno_completado = os.path.exists("datos_partida_NivelUno.json")
+        self.nivel_dos_completado = os.path.exists("datos_partida_NivelDos.json")
+        self.nivel_tres_completado = os.path.exists("datos_partida_NivelTres.json")
+        self.nivel_cuatro_completado = os.path.exists("datos_partida_NivelCuatro.json")
+
+        self.actualizar_estado_niveles()
+
+    def btn_home_click(self, param):
         self.end_dialog()
         
         # Reiniciar variables de desbloqueo y completado de niveles
@@ -175,3 +179,5 @@ class formNiveles(Form):
         self.nivel_dos_completado = False
         self.nivel_tres_completado = False
         self.nivel_cuatro_completado = False
+
+        self.actualizar_estado_niveles()
