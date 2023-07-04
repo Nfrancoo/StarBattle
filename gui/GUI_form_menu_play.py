@@ -13,7 +13,7 @@ class formNiveles(Form):
         super().__init__(screen, x, y, w, h, color_background, color_border, active)
         self.manejador_niveles = ManejadorNiveles(self._master)
         aux_image = pygame.image.load(path_image)
-        aux_image = pygame.transform.scale(aux_image,(w,h))
+        aux_image = pygame.transform.scale(aux_image, (w, h))
         self._slave = aux_image
         # Banderas para verificar si los niveles están desbloqueados o completados
         self.nivel_uno_desbloqueado = True  # Siempre desbloqueado
@@ -33,84 +33,91 @@ class formNiveles(Form):
         if self.nivel_tres_completado:
             self.nivel_cuatro_desbloqueado = True
 
+        self.niveles_imagenes = {
+            "nivel_uno": "fondos\imagenes\primerpelea.png",
+            "nivel_dos": "fondos\imagenes\peleados.png",
+            "nivel_tres": "fondos\imagenes/tercerpelea.png",
+            "nivel_cuatro": "fondos\imagenes\cuartonivel.png"
+        }
+
         self.btn_nivel_uno = Button_Image(screen=self._slave,
-                                          master_x= x,
-                                          master_y= y,
-                                          x = 200,
-                                          y =120,
-                                          w = 100,
-                                          h = 100,
+                                          master_x=x,
+                                          master_y=y,
+                                          x=200,
+                                          y=120,
+                                          w=100,
+                                          h=100,
                                           path_image="fondos\imagenes/nivel_uno.png",
-                                          onclick= self.entrar_nivel,
+                                          onclick=self.entrar_nivel,
                                           onclick_param="nivel_uno",
                                           text="",
                                           font="Arial")
-        
+
         self.btn_nivel_dos = Button_Image(screen=self._slave,
-                                          master_x= x,
-                                          master_y= y,
-                                          x = 300,
-                                          y =120,
-                                          w = 100,
-                                          h = 100,
+                                          master_x=x,
+                                          master_y=y,
+                                          x=300,
+                                          y=120,
+                                          w=100,
+                                          h=100,
                                           path_image="fondos\imagenes/nivel_dos.png",
-                                          onclick= self.entrar_nivel,
+                                          onclick=self.entrar_nivel,
                                           onclick_param="nivel_dos",
                                           text="",
                                           font="Arial")
 
         self.btn_nivel_tres = Button_Image(screen=self._slave,
-                                          master_x= x,
-                                          master_y= y,
-                                          x = 400,
-                                          y =120,
-                                          w = 100,
-                                          h = 100,
-                                          color_background=(255,0,0),
-                                          color_border=(255,0,255),
+                                          master_x=x,
+                                          master_y=y,
+                                          x=400,
+                                          y=120,
+                                          w=100,
+                                          h=100,
+                                          color_background=(255, 0, 0),
+                                          color_border=(255, 0, 255),
                                           path_image="fondos\imagenes/nivel_tres.png",
-                                          onclick= self.entrar_nivel,
+                                          onclick=self.entrar_nivel,
                                           onclick_param="nivel_tres",
                                           text="",
                                           font="Arial",
-                                          font_size= 15,
-                                          font_color=(0,255,0))
-        
+                                          font_size=15,
+                                          font_color=(0, 255, 0))
+
         self.btn_nivel_cuatro = Button_Image(screen=self._slave,
-                                          master_x= x,
-                                          master_y= y,
-                                          x = 500,
-                                          y =120,
-                                          w = 100,
-                                          h = 100,
-                                          color_background=(255,0,0),
-                                          color_border=(255,0,255),
-                                          path_image="fondos\imagenes/nivel_cuatro.png",
-                                          onclick= self.entrar_nivel,
-                                          onclick_param="nivel_cuatro",
-                                          text="",
-                                          font="Arial",
-                                          font_size= 15,
-                                          font_color=(0,255,0))
+                                             master_x=x,
+                                             master_y=y,
+                                             x=500,
+                                             y=120,
+                                             w=100,
+                                             h=100,
+                                             color_background=(255, 0, 0),
+                                             color_border=(255, 0, 255),
+                                             path_image="fondos\imagenes/nivel_cuatro.png",
+                                             onclick=self.entrar_nivel,
+                                             onclick_param="nivel_cuatro",
+                                             text="",
+                                             font="Arial",
+                                             font_size=15,
+                                             font_color=(0, 255, 0))
 
         self.btn_home = Button_Image(screen=self._slave,
-                                          master_x= x,
-                                          master_y= y,
-                                          x = 200,
-                                          y =300,
-                                          w = 100,
-                                          h = 100,
-                                          path_image="gui\home.png",
-                                          onclick= self.btn_home_click,
-                                          onclick_param="",
-                                          text="",
-                                          font="Arial")
-        
+                                     master_x=x,
+                                     master_y=y,
+                                     x=200,
+                                     y=300,
+                                     w=100,
+                                     h=100,
+                                     path_image="gui/home.png",
+                                     onclick=self.btn_home_click,
+                                     onclick_param="",
+                                     text="",
+                                     font="Arial")
+
         self.lista_widgets.append(self.btn_nivel_uno)
         self.lista_widgets.append(self.btn_nivel_dos)
         self.lista_widgets.append(self.btn_nivel_tres)
         self.lista_widgets.append(self.btn_nivel_cuatro)
-        self.lista_widgets.append(self.btn_home) 
+        self.lista_widgets.append(self.btn_home)
     
     def verificar_archivo_json(self, nombre_nivel):
         nombre_archivo = f"datos_partida_{nombre_nivel}.json"
@@ -143,10 +150,10 @@ class formNiveles(Form):
         nivel_actual = None
 
         if (
-            nombre_nivel == "nivel_uno" and self.nivel_uno_desbloqueado or
-            nombre_nivel == "nivel_dos" and self.nivel_dos_desbloqueado or
-            nombre_nivel == "nivel_tres" and self.nivel_tres_desbloqueado or
-            nombre_nivel == "nivel_cuatro" and self.nivel_cuatro_desbloqueado
+            (nombre_nivel == "nivel_uno" and self.nivel_uno_desbloqueado) or
+            (nombre_nivel == "nivel_dos" and self.nivel_dos_desbloqueado) or
+            (nombre_nivel == "nivel_tres" and self.nivel_tres_desbloqueado) or
+            (nombre_nivel == "nivel_cuatro" and self.nivel_cuatro_desbloqueado)
         ):
             nivel_actual = nombre_nivel
             nivel = self.manejador_niveles.get_nivel(nombre_nivel)
@@ -167,6 +174,16 @@ class formNiveles(Form):
 
         self.actualizar_estado_niveles()
 
+        # Mostrar la imagen correspondiente al nivel si está desbloqueado
+        if (
+            (nombre_nivel == "nivel_uno" and self.nivel_uno_desbloqueado) or
+            (nombre_nivel == "nivel_dos" and self.nivel_dos_desbloqueado) or
+            (nombre_nivel == "nivel_tres" and self.nivel_tres_desbloqueado) or
+            (nombre_nivel == "nivel_cuatro" and self.nivel_cuatro_desbloqueado)
+        ):
+            imagen_nivel = self.niveles_imagenes[nombre_nivel]
+            self.mostrar_imagen(imagen_nivel)
+
     def btn_home_click(self, param):
         self.end_dialog()
         
@@ -181,3 +198,11 @@ class formNiveles(Form):
         self.nivel_cuatro_completado = False
 
         self.actualizar_estado_niveles()
+    
+    def mostrar_imagen(self, imagen):
+        pantalla_completa = pygame.display.set_mode((self._master.get_width(), self._master.get_height()))
+        imagen_cargada = pygame.image.load(imagen)
+        imagen_redimensionada = pygame.transform.scale(imagen_cargada, (self._master.get_width(), self._master.get_height()))
+        pantalla_completa.blit(imagen_redimensionada, (0, 0))
+        pygame.display.flip()
+        pygame.time.wait(1000)

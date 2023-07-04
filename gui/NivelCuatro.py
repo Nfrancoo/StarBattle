@@ -16,7 +16,7 @@ class NivelCuatro(Nivel):
         score = [0, 0]  # Puntuaciones de los jugadores. [P1, P2]
         round_over = False
         ROUND_OVER_COOLDOWN = 2000
-        FPS = 120
+        FPS = 160
         clock = pygame.time.Clock()
 
         # Definir variables de imagen

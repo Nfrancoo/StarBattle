@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from GUI_picture_box import PictureBox
 
 from GUI_button import *
 #No se instancia. Es la base de la jerarquia
@@ -28,7 +29,10 @@ class Form(Widget):
         self.active = False
 
     def verificar_dialog_result(self):
-        return self.hijo == None or self.hijo.dialog_result != None
+        if isinstance(self.hijo, PictureBox):
+            return False
+        else:
+            return self.hijo is None or self.hijo.dialog_result is not None
  
     def render(self):
         pass
