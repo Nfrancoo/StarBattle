@@ -7,6 +7,7 @@ from animacion import *
 
 class NivelUno(Nivel):
     def __init__(self, pantalla):
+        self.enemigo_tipo = Enemigo
         tick = pygame.USEREVENT + 0 #evento propio
         pygame.time.set_timer(tick, 100)
         # Definir variables específicas del nivel uno
@@ -58,5 +59,6 @@ class NivelUno(Nivel):
 
         dt = clock.tick(FPS) / 1000
         super().__init__(pantalla, jugador, enemigo, lista_plataformas, img_fondo, round_over, WARRIOR_DATA, personaje_principal,
-                         WARRIOR_ANIMACION_PASOS, ESPADACHIN_DATA, enemigo_sheet, ESPADACHIN_ANIMACION_PASOS, lista_donas , tick, all_sprites, dt, clock, FPS, background)
+                         WARRIOR_ANIMACION_PASOS, ESPADACHIN_DATA, enemigo_sheet, ESPADACHIN_ANIMACION_PASOS, 
+                         lista_donas , tick, all_sprites, dt, clock, FPS, background, imagen_victoria, imagen_gameover, 'NivelUno')
 

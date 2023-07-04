@@ -19,9 +19,13 @@ pygame.display.set_caption('StarBattle')
 FPS = 60
 clock = pygame.time.Clock()
 
+# Cargar imagen de fondo
+# fondo = pygame.image.load("fondos/imagenes/fondo.png")
+# fondo = pygame.transform.scale(fondo, (pantalla_width, pantalla_height))  # Escalar la imagen al tamaño de la pantalla
 
-# Crear instancia del NivelUno
-# nivel_uno = NivelDos(PANTALLA)
+
+
+# Crear instancia del Form
 form_prueba = FormPrueba(PANTALLA, 50, 100, 900, 350, 'Gold', 'Magenta', 5, True)
 
 
@@ -32,7 +36,8 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit(0)
-            
+    # Dibujar la imagen de fondo en la superficie del formulario
+    # PANTALLA.blit(fondo, (0, 0))
     PANTALLA.fill('Black')
     form_prueba.update(lista_eventos)
     
@@ -41,4 +46,3 @@ while True:
 
 # Salir de pygame
 pygame.quit()
-

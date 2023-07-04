@@ -1,8 +1,8 @@
 import pygame
 from pygame import mixer
-from nivel_uno.personajeNU import Personaje
-from pruebas.enemigo import Enemigo
-from nivel_uno.plataforma import Plataforma
+from gui.PersonajeNU import Personaje
+from gui.EnemigoNU import Enemigo
+from gui.plataforma import Plataforma
 
 mixer.init()
 pygame.init()

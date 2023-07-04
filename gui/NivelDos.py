@@ -7,6 +7,7 @@ from Donas import *
 
 class NivelDos(Nivel):
     def __init__(self, pantalla):
+        self.enemigo_tipo = Enemigo
         tick = pygame.USEREVENT + 0 #evento propio
         pygame.time.set_timer(tick, 100)
 
@@ -60,5 +61,5 @@ class NivelDos(Nivel):
         dt = clock.tick(FPS) / 1000
         super().__init__(pantalla, jugador, enemigo, lista_plataformas, img_fondo, round_over, PERSONAJE_DATA, personaje_sheet,
                         PERSONAJE_ANIMACION_PASOS, ENEMIGO_DATA, enemigo_sheet, ENEMIGO_ANIMACION_PASOS, lista_donas,
-                        tick, all_sprites, dt, clock, FPS, background)
+                        tick, all_sprites, dt, clock, FPS, background, imagen_victoria, imagen_gameover, 'NivelDos')
 

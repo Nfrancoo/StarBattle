@@ -1,26 +1,29 @@
 from plataforma import Plataforma
 from personajeNU import Personaje
+from Boss import Boss
 from enemigoNU import Enemigo
 from Donas import *
 from animacion import *
 import pygame
+import json
+import os
 
 class Nivel:
-    def __init__(self, pantalla, personaje_principal, enemigo, lista_plataformas, img_fondo, round_over,  jugador_data,
+    def __init__(self, pantalla, personaje_principal, enemigo, lista_plataformas, img_fondo, round_over, jugador_data,
                  jugador_sheet, jugador_animacion_pasos, enemigo_data, enemigo_sheet, enemigo_animacion_pasos,
-                 lista_donas, tick, all_sprites, dt, clock, FPS, background):
+                 lista_donas, tick, all_sprites, dt, clock, FPS, background, imagen_victoria, imagen_gameover, nivel):
         self._slave = pantalla
         self.jugador = personaje_principal
         self.enemigo = enemigo
         self.plataformas = lista_plataformas
         self.img_fondo = img_fondo
         self.round_over = False
-        self.score = score = [0, 0]
+        self.score = [0, 0]
         self.score_font = pygame.font.Font("fonts/turok.ttf", 30)
         self.pantalla_width = 1000
         self.pantalla_height = 600
-        self.imagen_victoria = pygame.image.load("fondos/imagenes/victory.png")
-        self.imagen_gameover = pygame.image.load('fondos/imagenes/endgame.png')
+        self.imagen_victoria = imagen_victoria
+        self.imagen_gameover = imagen_gameover
         self.ROUND_OVER_COOLDOWN = 2000
         self.jugador_data = jugador_data
         self.jugador_sheet = jugador_sheet
@@ -36,10 +39,12 @@ class Nivel:
         self.clock = clock
         self.FPS = FPS
         self.background = background
+        self.tiempo_transcurrido = 0
+        self.nivel = nivel
+        self.enemigo_2 = enemigo
 
     def update(self, lista_eventos):
         # Dibujar fondo
-
         if isinstance(self.all_sprites, pygame.sprite.Group):
             self.dt = self.clock.tick(self.FPS) / 1000
             self.all_sprites.update(self.dt)
@@ -48,17 +53,25 @@ class Nivel:
             self.pintar_fondo()
 
         # Mostrar estadísticas de los jugadores
+        if self.round_over == False:  # Verificar si round_over es True
+            self.tiempo_transcurrido += self.clock.tick(self.FPS) / 1000
+
         self.pintar_vida_barra(self.jugador.vida, 20, 20)
         self.pintar_vida_barra(self.enemigo.vida, 580, 20)
         self.escribir_texto("P1: " + str(self.score[0]), self.score_font, 'Red', 20, 60)
         self.escribir_texto("P2: " + str(self.score[1]), self.score_font, 'Red', 580, 60)
+        minutos = int(self.tiempo_transcurrido // 60)
+        segundos = int(self.tiempo_transcurrido % 60)
+
+        tiempo_formateado = f"{minutos}:{segundos:02}"  # Formatear cadena de tiempo
+
+        self.escribir_texto(tiempo_formateado, self.score_font, 'White', 480, 20)
 
         # Actualizar cuenta regresiva
-        
-            # Mover personajes
+
+        # Mover personajes
         self.jugador.movimiento(self.pantalla_width, self.pantalla_height, self._slave, self.enemigo, self.round_over, self.plataformas)
         self.enemigo.movimiento(self.pantalla_width, self.pantalla_height, self._slave, self.jugador, self.round_over, self.plataformas)
-
 
         # Actualizar personajes
         self.jugador.update()
@@ -68,7 +81,6 @@ class Nivel:
         self.jugador.draw(self._slave)
         self.enemigo.draw(self._slave)
 
-        # Verificar derrota de los jugadores
         # Verificar derrota de los jugadores
         if self.round_over == False:
             if self.jugador.vivo == False:
@@ -88,7 +100,11 @@ class Nivel:
         else:
             if self.score[0] == 2 or self.score[1] == 2:
                 if self.score[0] == 2:
-                    self._slave.blit(self.imagen_victoria, (360, 150))
+                    self._slave.blit(self.imagen_victoria, (295, 110))
+                    duracion_partida = int(self.tiempo_transcurrido)
+                    puntos_jugador = self.score[0]
+                    puntos_enemigo = self.score[1]
+                    self.guardar_datos_partida(duracion_partida, puntos_jugador, puntos_enemigo)
                 else:
                     self._slave.blit(self.imagen_gameover, (115, 20))
             else:
@@ -96,17 +112,27 @@ class Nivel:
                 if pygame.time.get_ticks() - self.round_over_time > self.ROUND_OVER_COOLDOWN:
                     self.round_over = False
                     intro_count = 3
-                    self.jugador = Personaje(1, 200, 310, False, self.jugador_data, self.jugador_sheet, self.jugador_animacion_pasos)
-                    self.enemigo = Enemigo(2, 700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
-
+                    self.jugador = Personaje(200, 310, False, self.jugador_data, self.jugador_sheet, self.jugador_animacion_pasos)
+        
+                    if isinstance(self.enemigo, self.enemigo_tipo):  # Comprueba si el enemigo es del tipo original
+                        self.enemigo = self.enemigo_tipo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+                        self.enemigo_2 = Boss(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+                    else:
+                        self.enemigo = Enemigo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+                        self.enemigo_2 = Enemigo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+            
+        
+        
         for dona in self.lista_donas:
             self._slave.blit(dona['superficie'], dona['rectangulo'])
+
         for evento in lista_eventos:
             if evento.type == pygame.USEREVENT:
                 if evento.type == self.tick:
                     update(self.lista_donas)
+
         for dona in self.lista_donas:
-                    self._slave.blit(dona['superficie'], dona['rectangulo'])
+            self._slave.blit(dona['superficie'], dona['rectangulo'])
 
         for dona in self.lista_donas:
             if dona['rectangulo'].colliderect(self.jugador.rect):
@@ -116,9 +142,6 @@ class Nivel:
                 if self.enemigo.vida < 100:  # Permitir que la vida alcance 100
                     self.enemigo.vida += 5
                 actualizar_pantalla(self.lista_donas, self.enemigo, self._slave)
-
-            
-
 
         # Debug: Dibujar rango de ataque del enemigo
         # self.pintar_rango_ataque(self.enemigo)
@@ -155,3 +178,17 @@ class Nivel:
 
     def pintar_rango_ataque(self, personaje):
         pygame.draw.rect(self._slave, (0, 255, 0), personaje.rango_ataque, 2)
+
+    def guardar_datos_partida(self, duracion, puntos_jugador, puntos_enemigo):
+        nombre_archivo = f'datos_partida_{self.nivel}.json'    
+        datos = {
+            'duracion': duracion,
+            'puntos_jugador': puntos_jugador,
+            'puntos_enemigo': puntos_enemigo
+        }
+        
+        try:
+            with open(nombre_archivo, 'w') as file:
+                json.dump(datos, file, indent=4)
+        except PermissionError:
+            print('No se pudo guardar el archivo.')
