@@ -16,7 +16,7 @@ class NivelTres(Nivel):
         score = [0, 0]  # Puntuaciones de los jugadores. [P1, P2]
         round_over = False
         ROUND_OVER_COOLDOWN = 2000
-        FPS = 160
+        FPS = 60
         clock = pygame.time.Clock()
 
         # Definir variables de imagen

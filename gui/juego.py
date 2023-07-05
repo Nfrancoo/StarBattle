@@ -8,6 +8,7 @@ from animacion import *
 
 # Inicializar Pygame
 pygame.init()
+pygame.mixer.init()
 
 # Definir dimensiones de la pantalla
 pantalla_width = 1000
@@ -18,10 +19,6 @@ PANTALLA = pygame.display.set_mode((pantalla_width, pantalla_height))
 pygame.display.set_caption('StarBattle')
 FPS = 60
 clock = pygame.time.Clock()
-
-# Cargar imagen de fondo
-# fondo = pygame.image.load("fondos/imagenes/fondo.png")
-# fondo = pygame.transform.scale(fondo, (pantalla_width, pantalla_height))  # Escalar la imagen al tamaño de la pantalla
 
 
 
@@ -36,13 +33,11 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit(0)
-    # Dibujar la imagen de fondo en la superficie del formulario
-    # PANTALLA.blit(fondo, (0, 0))
     PANTALLA.fill('Black')
     form_prueba.update(lista_eventos)
     
 
-    pygame.display.update()
+    pygame.display.flip()
 
 # Salir de pygame
 pygame.quit()

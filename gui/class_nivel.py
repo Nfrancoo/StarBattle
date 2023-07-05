@@ -44,17 +44,19 @@ class Nivel:
         self.enemigo_2 = enemigo
 
     def update(self, lista_eventos):
+        # Calcular el tiempo transcurrido al inicio del método
+        delta_time = self.clock.tick(self.FPS) / 1000
+
         # Dibujar fondo
         if isinstance(self.all_sprites, pygame.sprite.Group):
-            self.dt = self.clock.tick(self.FPS) / 1000
-            self.all_sprites.update(self.dt)
+            self.all_sprites.update(delta_time)
             self.pintar_fondo_2()
         else:
             self.pintar_fondo()
 
         # Mostrar estadísticas de los jugadores
-        if self.round_over == False:  # Verificar si round_over es True
-            self.tiempo_transcurrido += self.clock.tick(self.FPS) / 1000
+        if not self.round_over:
+            self.tiempo_transcurrido += delta_time
 
         self.pintar_vida_barra(self.jugador.vida, 20, 20)
         self.pintar_vida_barra(self.enemigo.vida, 580, 20)
