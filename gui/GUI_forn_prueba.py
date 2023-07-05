@@ -19,8 +19,6 @@ class FormPrueba(Form):
         self.volumen = 0.2
         self.flag_play = True
 
-        pygame.mixer.init()
-
         ######CONTROLES #####
         #self.txtbox = TextBox(self._slave, x, y, 300, 50, 300, 30, "Gray", "White", "Red", "Blue", 2,font="Comic Sans", font_size=15, font_color="Black")
         # self.btn_play = Button(self._slave, x, y, 100, 100, 100, 50, "Red", "Blue", self.btn_play_click, "Nombre",
