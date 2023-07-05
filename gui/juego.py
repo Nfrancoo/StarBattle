@@ -23,7 +23,7 @@ clock = pygame.time.Clock()
 
 
 # Crear instancia del Form
-form_prueba = FormPrueba(PANTALLA, 0, 0, 1000, 600, 'Gold', 'Black', 5, True)
+form_prueba = FormPrueba(PANTALLA, 0, 0, 1000, 600, 'Gold', 'Cyan', 3, True)
 
 
 # Bucle principal del juego

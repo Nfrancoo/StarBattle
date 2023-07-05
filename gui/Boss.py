@@ -114,7 +114,7 @@ class Boss():
 
             for proyectil in self.proyectiles:
                 if proyectil.rect.colliderect(target.rect):
-                    target.vida -= 50
+                    target.vida -= 70
                     self.proyectiles.remove(proyectil)
                     
             self.proyectiles.update(screen_width)

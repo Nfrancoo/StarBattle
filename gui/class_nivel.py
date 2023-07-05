@@ -45,18 +45,18 @@ class Nivel:
 
     def update(self, lista_eventos):
         # Calcular el tiempo transcurrido al inicio del método
-        delta_time = self.clock.tick(self.FPS) / 1000
+        time = self.clock.tick(self.FPS) / 1000
 
         # Dibujar fondo
         if isinstance(self.all_sprites, pygame.sprite.Group):
-            self.all_sprites.update(delta_time)
+            self.all_sprites.update(time)
             self.pintar_fondo_2()
         else:
             self.pintar_fondo()
 
         # Mostrar estadísticas de los jugadores
         if not self.round_over:
-            self.tiempo_transcurrido += delta_time
+            self.tiempo_transcurrido += time
 
         self.pintar_vida_barra(self.jugador.vida, 20, 20)
         self.pintar_vida_barra(self.enemigo.vida, 580, 20)
@@ -118,10 +118,10 @@ class Nivel:
         
                     if isinstance(self.enemigo, self.enemigo_tipo):  # Comprueba si el enemigo es del tipo original
                         self.enemigo = self.enemigo_tipo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
-                        self.enemigo_2 = Boss(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+                        
                     else:
-                        self.enemigo = Enemigo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
-                        self.enemigo_2 = Enemigo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+                        self.enemigo = self.enemigo_tipo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+                        
             
         
         

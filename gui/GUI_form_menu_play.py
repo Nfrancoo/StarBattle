@@ -123,8 +123,6 @@ class formNiveles(Form):
         nombre_archivo = f"datos_partida_{nombre_nivel}.json"
         return os.path.exists(nombre_archivo)
     
-    def on(self, parametro):
-        print("hola", parametro)
         
     def update(self, lista_eventos):
         if self.verificar_dialog_result():
@@ -159,45 +157,14 @@ class formNiveles(Form):
             nivel = self.manejador_niveles.get_nivel(nombre_nivel)
             contenedor_nivel = ContenedorNivel(self._master, nivel)
             self.show_dialog(contenedor_nivel)
-
-        if nivel_actual is not None:
-            # Verificar si el nivel actual completado es el nivel uno
-            if nivel_actual != "nivel_uno" and self.verificar_archivo_json(f"Nivel{nombre_nivel.capitalize()}"):
-                nivel_desbloqueado = f"nivel_{nombre_nivel}_desbloqueado"
-                setattr(self, nivel_desbloqueado, True)
-
-        # Actualizar el estado de completado de los niveles
-        self.nivel_uno_completado = os.path.exists("datos_partida_NivelUno.json")
-        self.nivel_dos_completado = os.path.exists("datos_partida_NivelDos.json")
-        self.nivel_tres_completado = os.path.exists("datos_partida_NivelTres.json")
-        self.nivel_cuatro_completado = os.path.exists("datos_partida_NivelCuatro.json")
-
-        self.actualizar_estado_niveles()
-
-        # Mostrar la imagen correspondiente al nivel si está desbloqueado
-        if (
-            (nombre_nivel == "nivel_uno" and self.nivel_uno_desbloqueado) or
-            (nombre_nivel == "nivel_dos" and self.nivel_dos_desbloqueado) or
-            (nombre_nivel == "nivel_tres" and self.nivel_tres_desbloqueado) or
-            (nombre_nivel == "nivel_cuatro" and self.nivel_cuatro_desbloqueado)
-        ):
             imagen_nivel = self.niveles_imagenes[nombre_nivel]
             self.mostrar_imagen(imagen_nivel)
 
+        self.actualizar_estado_niveles()
+
+
     def btn_home_click(self, param):
         self.end_dialog()
-        
-        # Reiniciar variables de desbloqueo y completado de niveles
-        self.nivel_uno_desbloqueado = True
-        self.nivel_dos_desbloqueado = False
-        self.nivel_tres_desbloqueado = False
-        self.nivel_cuatro_desbloqueado = False
-        self.nivel_uno_completado = False
-        self.nivel_dos_completado = False
-        self.nivel_tres_completado = False
-        self.nivel_cuatro_completado = False
-
-        self.actualizar_estado_niveles()
     
     def mostrar_imagen(self, imagen):
         pantalla_completa = pygame.display.set_mode((self._master.get_width(), self._master.get_height()))
