@@ -1,7 +1,7 @@
 import pygame
 
 class Enemigo():
-    def __init__(self, x, y, flip, data, sprite_sheet, pasos_animacion):
+    def __init__(self, x, y, flip, data, sprite_sheet, pasos_animacion, sonido):
         self.size = data[0]
         self.imagen_escalada = data[1]
         self.desplazamiento = data[2]
@@ -23,6 +23,7 @@ class Enemigo():
         self.vivo = True
         self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 3 * self.rect.width, self.rect.height)
         self.puede_saltar = True
+        self.sonido_ataque = sonido
 
     def cargar_imagenes(self, sprite_sheet, animacion_pasos):
         #extraer imagenes del spritesheet
@@ -114,6 +115,7 @@ class Enemigo():
 
         if self.cooldown_ataque == 0:
             self.golpeando = True
+            self.sonido_ataque.play()
             attack_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip),
                                       self.rect.y, 2 * self.rect.width, self.rect.height)
             if attack_rect.colliderect(target.rect):

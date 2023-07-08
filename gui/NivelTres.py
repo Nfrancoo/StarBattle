@@ -11,6 +11,11 @@ class NivelTres(Nivel):
         tick = pygame.USEREVENT + 0 #evento propio
         pygame.time.set_timer(tick, 100)
 
+        # Cargar musica
+        pygame.mixer.music.load("audio\musica\workout-metal-sport-11962.mp3")
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1, 0.0, 5000)
+
         # Definir variables del juego
         last_count_update = pygame.time.get_ticks()
         score = [0, 0]  # Puntuaciones de los jugadores. [P1, P2]
@@ -45,14 +50,20 @@ class NivelTres(Nivel):
         personaje_principal = pygame.image.load('sheets_personajes/warrior.png')
         enemigo_sheet = pygame.image.load('sheets_personajes/elRey.png')
 
+        # Cargar sonido ataque
+        rey_son = pygame.mixer.Sound("audio\efecto de sonido/007137308_prev.mp3")
+        rey_son.set_volume(0.5)
+        warrior_son = pygame.mixer.Sound("audio\efecto de sonido\sword.wav")
+        warrior_son.set_volume(0.75)
+
         # Definir número de pasos en cada animación
         WARRIOR_ANIMACION_PASOS = [10, 8, 1, 7, 7, 3, 7]
         ENEMIGO_ANIMACION_PASOS = [6, 8, 2, 6, 6, 4, 10]
 
 
         # Crear instancias de personaje y enemigo
-        jugador = Personaje(200, 310, False, WARRIOR_DATA, personaje_principal, WARRIOR_ANIMACION_PASOS)
-        enemigo = Enemigo(700, 310, True, ENEMIGO_DATA, enemigo_sheet, ENEMIGO_ANIMACION_PASOS)
+        jugador = Personaje(200, 310, False, WARRIOR_DATA, personaje_principal, WARRIOR_ANIMACION_PASOS, warrior_son)
+        enemigo = Enemigo(700, 310, True, ENEMIGO_DATA, enemigo_sheet, ENEMIGO_ANIMACION_PASOS, rey_son)
 
         # Crear lista de plataformas
         lista_plataformas = []

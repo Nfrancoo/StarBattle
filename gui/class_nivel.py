@@ -7,6 +7,8 @@ from animacion import *
 import pygame
 import json
 import os
+import sys
+from GUI_formsetting import formSettings
 
 class Nivel:
     def __init__(self, pantalla, personaje_principal, enemigo, lista_plataformas, img_fondo, round_over, jugador_data,
@@ -42,6 +44,8 @@ class Nivel:
         self.tiempo_transcurrido = 0
         self.nivel = nivel
         self.enemigo_2 = enemigo
+        self.paused = False
+        self.running = True
 
     def update(self, lista_eventos):
         # Calcular el tiempo transcurrido al inicio del método
@@ -132,6 +136,11 @@ class Nivel:
             if evento.type == pygame.USEREVENT:
                 if evento.type == self.tick:
                     update(self.lista_donas)
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_ESCAPE:
+                    self.pause()
+                    
+
 
         for dona in self.lista_donas:
             self._slave.blit(dona['superficie'], dona['rectangulo'])
@@ -194,3 +203,17 @@ class Nivel:
                 json.dump(datos, file, indent=4)
         except PermissionError:
             print('Completado todos los niveles, felicidades')
+
+    # Función para pausar el juego
+    def pause(self):
+        self.paused = True
+        while self.paused:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.paused = False
+                    self.running = False
+                    pygame.quit()
+                    sys.exit(0)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.paused = False

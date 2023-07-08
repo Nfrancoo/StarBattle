@@ -11,6 +11,11 @@ class NivelDos(Nivel):
         tick = pygame.USEREVENT + 0 #evento propio
         pygame.time.set_timer(tick, 100)
 
+        # Cargar musica
+        pygame.mixer.music.load("audio\musica\metal-dark-matter-111451.mp3")
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1, 0.0, 5000)
+
         # Definir variables del juego
         last_count_update = pygame.time.get_ticks()
         score = [0, 0]  # Puntuaciones de los jugadores. [P1, P2]
@@ -43,6 +48,12 @@ class NivelDos(Nivel):
         imagen_victoria = pygame.image.load("fondos/imagenes/victory.png")
         imagen_gameover = pygame.image.load('fondos/imagenes/endgame.png')
 
+        # Cargar sonido ataque
+        rey_son = pygame.mixer.Sound("audio\efecto de sonido/007137308_prev.mp3")
+        rey_son.set_volume(0.5)
+        mago_son = pygame.mixer.Sound("audio\efecto de sonido\magic.wav")
+        mago_son.set_volume(0.75)
+
         # Definir número de pasos en cada animación
         PERSONAJE_ANIMACION_PASOS = [6, 8, 2, 6, 6, 4, 10]
         ENEMIGO_ANIMACION_PASOS = [8, 8, 1, 8, 8, 3, 7]
@@ -51,8 +62,8 @@ class NivelDos(Nivel):
         score_font = pygame.font.Font("fonts/turok.ttf", 30)
 
         # Crear dos instancias de personaje
-        jugador = Personaje(200, 280, False, PERSONAJE_DATA, personaje_sheet, PERSONAJE_ANIMACION_PASOS,)
-        enemigo = Enemigo(700, 310, True, ENEMIGO_DATA, enemigo_sheet, ENEMIGO_ANIMACION_PASOS,)
+        jugador = Personaje(200, 280, False, PERSONAJE_DATA, personaje_sheet, PERSONAJE_ANIMACION_PASOS, rey_son)
+        enemigo = Enemigo(700, 310, True, ENEMIGO_DATA, enemigo_sheet, ENEMIGO_ANIMACION_PASOS, mago_son)
 
         lista_plataformas = []#Plataforma(1, 280, 330, 10, (0, 0, 0, 0))]
 

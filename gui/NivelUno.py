@@ -18,6 +18,12 @@ class NivelUno(Nivel):
         FPS = 60
         clock = pygame.time.Clock()
 
+
+        # Cargar musica
+        pygame.mixer.music.load("audio\musica\music.mp3")
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1, 0.0, 5000)
+
         # Definir variables de imagen
         WARRIOR_TAMAÑO = 162
         WARRIOR_ESCALA = 4
@@ -44,13 +50,19 @@ class NivelUno(Nivel):
         personaje_principal = pygame.image.load('sheets_personajes/warrior.png')
         enemigo_sheet = pygame.image.load('sheets_enemigo/espadachin.png')
 
+        # Cargar sonidos golpes
+        warrior_son = pygame.mixer.Sound("audio\efecto de sonido\sword.wav")
+        warrior_son.set_volume(0.5)
+        espadachin_son = pygame.mixer.Sound("audio\efecto de sonido\sword.wav")
+        espadachin_son.set_volume(0.75)
+
         # Definir número de pasos en cada animación
         WARRIOR_ANIMACION_PASOS = [10, 8, 1, 7, 7, 3, 7]
         ESPADACHIN_ANIMACION_PASOS = [4, 8, 1, 3, 4, 3, 7]
 
         # Crear instancias de personaje y enemigo
-        jugador = Personaje(200, 310, False, WARRIOR_DATA, personaje_principal, WARRIOR_ANIMACION_PASOS)
-        enemigo = Enemigo(700, 310, True, ESPADACHIN_DATA, enemigo_sheet, ESPADACHIN_ANIMACION_PASOS)
+        jugador = Personaje(200, 310, False, WARRIOR_DATA, personaje_principal, WARRIOR_ANIMACION_PASOS, espadachin_son )
+        enemigo = Enemigo(700, 310, True, ESPADACHIN_DATA, enemigo_sheet, ESPADACHIN_ANIMACION_PASOS, espadachin_son)
 
         # Crear lista de plataformas
         lista_plataformas = [Plataforma(1, 280, 310, 10, (0, 0, 0, 0))]

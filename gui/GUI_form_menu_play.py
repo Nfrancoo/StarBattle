@@ -7,6 +7,7 @@ from GUI_form import *
 from GUI_form_contenedor_nivel import ContenedorNivel
 from GUI_button_image import *
 from manejador_niveles import ManejadorNiveles
+from GUI_formsetting import formSettings
 
 class formNiveles(Form):
     def __init__(self, screen, x, y, w, h, color_background, color_border, active, path_image):
@@ -112,12 +113,24 @@ class formNiveles(Form):
                                      onclick_param="",
                                      text="",
                                      font="Arial")
+        
+        # self.btn_settings = Button_Image(screen=self._slave,
+        #                          master_x=x,
+        #                          master_y=y,
+        #                          x=0,
+        #                          y=0,
+        #                          w=50,
+        #                          h=50,
+        #                          path_image="fondos\imagenes\pngtree-icon-setting-game-png-image_6402361.png",
+        #                          onclick=self.btn_settings_click,
+        #                          onclick_param="settings")
 
         self.lista_widgets.append(self.btn_nivel_uno)
         self.lista_widgets.append(self.btn_nivel_dos)
         self.lista_widgets.append(self.btn_nivel_tres)
         self.lista_widgets.append(self.btn_nivel_cuatro)
         self.lista_widgets.append(self.btn_home)
+        # self.lista_widgets.append(self.btn_settings)
     
     def verificar_archivo_json(self, nombre_nivel):
         nombre_archivo = f"datos_partida_{nombre_nivel}.json"
@@ -173,3 +186,7 @@ class formNiveles(Form):
         pantalla_completa.blit(imagen_redimensionada, (0, 0))
         pygame.display.flip()
         pygame.time.wait(1000)
+
+    def btn_settings_click(self,text):
+        formulario_setting = formSettings(self._master,100,25,800,550,"Black","Black",True)
+        self.show_dialog(formulario_setting)
