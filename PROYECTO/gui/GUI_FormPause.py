@@ -42,7 +42,7 @@ class FormPausa(Form):
                                  y=250,
                                  w=60,
                                  h=60,
-                                 path_image="proyecto/fondos\imagenes\settings.png",
+                                 path_image="proyecto/fondos\imagenes\setting_logo.png",
                                  onclick=self.btn_settings_click,
                                  onclick_param="settings")
 

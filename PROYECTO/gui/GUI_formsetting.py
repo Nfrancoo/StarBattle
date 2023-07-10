@@ -14,17 +14,17 @@ class formSettings(Form):
         self.contenedor_nivel = contenedor_nivel
         self.volumen = current_volume  # Utiliza el volumen actual almacenado
         self.flag_play = True
-        self.picture_box = PictureBox(self._slave, 0, 0, 800, 500, "proyecto/gui\Window.png")
-        self.btn_play = Button(self._slave, x, y, 100, 100, 100, 50, "Red", "Blue", self.btn_play_click, "Nombre", "Pausa", font="Verdana", font_size=15, font_color="White")
-        self.label_volumen = Label(self._slave, 650, 190, 100, 50, f"{round(self.volumen * 100)}%", "Comic Sans", 15, "White", "proyecto/gui\Table.png")
-        self.slider_volumen = Slider(self._slave,x,y,100,200,500,15,self.volumen,"Blue","White")
+        self.picture_box = PictureBox(self._slave, 0, 0, 800, 500, "proyecto/fondos\imagenes\settings.png")
+        self.btn_play = Button(self._slave, x, y, 150, 250, 100, 50, "Red", "Blue", self.btn_play_click, "Nombre", "Pausa", font="Verdana", font_size=15, font_color="White")
+        self.label_volumen = Label(self._slave, 590, 190, 100, 50, f"{round(self.volumen * 100)}%", "Comic Sans", 15, "White", "proyecto/gui\Table.png")
+        self.slider_volumen = Slider(self._slave,x,y,150,200,400,15,self.volumen,"Blue","White")
         self.btn_home = Button_Image(screen=self._slave,
                                       master_x=self._x,
                                       master_y=self._y,
-                                      x=self._w-150,
-                                      y=self._h-180,
-                                      w=100,
-                                      h=100,
+                                      x=self._w-180,
+                                      y=self._h-230,
+                                      w=80,
+                                      h=80,
                                       path_image="proyecto/gui/home.png",
                                       onclick=self.btn_home_click,
                                       onclick_param="",
@@ -50,6 +50,7 @@ class formSettings(Form):
             self.btn_play.set_text("Pause")
                 
         self.flag_play = not self.flag_play
+        self.contenedor_nivel.sonido_ataque.ejecutar_sonido = not self.contenedor_nivel.sonido_ataque.ejecutar_sonido
                     
     def update_volumen(self,lista_eventos):
         self.volumen = self.slider_volumen.value
