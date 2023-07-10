@@ -17,7 +17,6 @@ class NivelTres(Nivel):
         pygame.mixer.music.play(-1, 0.0, 5000)
 
         # Definir variables del juego
-        last_count_update = pygame.time.get_ticks()
         score = [0, 0]  # Puntuaciones de los jugadores. [P1, P2]
         round_over = False
         ROUND_OVER_COOLDOWN = 2000
@@ -74,5 +73,5 @@ class NivelTres(Nivel):
 
         super().__init__(pantalla, jugador, enemigo, lista_plataformas, img_fondo, round_over, WARRIOR_DATA, personaje_principal,
                         WARRIOR_ANIMACION_PASOS, ENEMIGO_DATA, enemigo_sheet, ENEMIGO_ANIMACION_PASOS, lista_donas ,
-                        tick, all_sprites,dt, clock, FPS, background, imagen_victoria, imagen_gameover, 'NivelTres')
+                        tick, all_sprites,dt, clock, FPS, background, imagen_victoria, imagen_gameover, 'NivelTres', warrior_son, rey_son)
 

@@ -13,7 +13,7 @@ from GUI_formsetting import formSettings
 class Nivel:
     def __init__(self, pantalla, personaje_principal, enemigo, lista_plataformas, img_fondo, round_over, jugador_data,
                  jugador_sheet, jugador_animacion_pasos, enemigo_data, enemigo_sheet, enemigo_animacion_pasos,
-                 lista_donas, tick, all_sprites, dt, clock, FPS, background, imagen_victoria, imagen_gameover, nivel):
+                 lista_donas, tick, all_sprites, dt, clock, FPS, background, imagen_victoria, imagen_gameover, nivel, sonido_per, sonido_ene):
         self._slave = pantalla
         self.jugador = personaje_principal
         self.enemigo = enemigo
@@ -46,8 +46,15 @@ class Nivel:
         self.enemigo_2 = enemigo
         self.paused = False
         self.running = True
+        self.personaje_sonido_ataque = sonido_per
+        self.enemigo_sonido_ataque = sonido_ene
+        self.timer_active = True
+
 
     def update(self, lista_eventos):
+        
+        if self.paused or not self.timer_active:  # Detener el temporizador si está en pausa o timer_active es False
+            return
         # Calcular el tiempo transcurrido al inicio del método
         time = self.clock.tick(self.FPS) / 1000
 
@@ -118,13 +125,13 @@ class Nivel:
                 if pygame.time.get_ticks() - self.round_over_time > self.ROUND_OVER_COOLDOWN:
                     self.round_over = False
                     intro_count = 3
-                    self.jugador = Personaje(200, 310, False, self.jugador_data, self.jugador_sheet, self.jugador_animacion_pasos)
+                    self.jugador = Personaje(200, 310, False, self.jugador_data, self.jugador_sheet, self.jugador_animacion_pasos, self.personaje_sonido_ataque)
         
                     if isinstance(self.enemigo, self.enemigo_tipo):  # Comprueba si el enemigo es del tipo original
-                        self.enemigo = self.enemigo_tipo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+                        self.enemigo = self.enemigo_tipo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos, self.enemigo_sonido_ataque)
                         
                     else:
-                        self.enemigo = self.enemigo_tipo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos)
+                        self.enemigo = self.enemigo_tipo(700, 310, True, self.enemigo_data, self.enemigo_sheet, self.enemigo_animacion_pasos, self.enemigo_sonido_ataque)
                         
             
         
@@ -139,6 +146,7 @@ class Nivel:
             elif evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_ESCAPE:
                     self.pause()
+
                     
 
 

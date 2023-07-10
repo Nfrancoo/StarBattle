@@ -3,13 +3,15 @@ import pygame.locals
 
 from GUI_form import *
 from GUI_button_image import *
-from GUI_formsetting import formSettings
+from GUI_FormPause import FormPausa
+
 
 class ContenedorNivel(Form):
     def __init__(self, pantalla: pygame.Surface, nivel):
         super().__init__(pantalla, 0, 0, pantalla.get_width(), pantalla.get_height(), color_background='sakjs')
         nivel._slave = self._slave
         self.nivel = nivel
+        self.setting = False
         self._btn_home = Button_Image(screen=self._slave,
                                         master_x = self._x,
                                         master_y = self._y,
@@ -43,23 +45,29 @@ class ContenedorNivel(Form):
 
     
     def update(self, lista_evento):
-        self.nivel.update(lista_evento)
-        for widget in self.lista_widgets:
-            widget.update(lista_evento)
-        self.draw()
+        if self.setting == False:
+            self.nivel.update(lista_evento)
+            for widget in self.lista_widgets:
+                widget.update(lista_evento)
+            self.draw()
+        else:
+            if self.verificar_dialog_result():
+                for widget in self.lista_widgets:
+                    widget.update(lista_evento)
+                self.draw()
+            else:
+                self.hijo.update(lista_evento)
 
-    # def update_setting(self, lista_eventos):
-    #     if self.verificar_dialog_result():
-    #         for widget in self.lista_widgets:
-    #             widget.update_setting(lista_eventos)
-                
-    #         self.draw()
-    #     else:
-    #         self.hijo.update_setting(lista_eventos)
         
-    def btn_settings_click(self,text):
-        formulario_setting = formSettings(self._master,100,25,800,550,"Black","Black",True)
+    def btn_settings_click(self, text):
+        formulario_setting = FormPausa(self._master, 0, 0, 900, 700, "Black", "Black", True, self)  
+        self.setting = True 
         self.show_dialog(formulario_setting)
 
-    def btn_home_click(self,param):
+ 
+    def btn_home_click(self, param):
+        from GUI_form_menu_play import formNiveles
+        formulario_niveles = formNiveles(self._master, 100, 25, 800, 550, "Black", "Black", True, "gui\Window.png")
+        self.show_dialog(formulario_niveles)
         self.end_dialog()
+

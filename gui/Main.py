@@ -1,7 +1,7 @@
 import pygame
 import sys
 from pygame.locals import *
-from GUI_forn_prueba import FormPrueba
+from gui.GUI_forn_prueba import FormPrueba
 
 pygame.init()
 W = 1200

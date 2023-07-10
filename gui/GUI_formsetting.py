@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import *
-
 from GUI_form import *
 from GUI_button_image import *
 from GUI_label import *
@@ -10,8 +9,9 @@ from GUI_slider import *
 current_volume = 0.2
 
 class formSettings(Form):
-    def __init__(self, screen, x, y, w, h, color_background, color_border, active):
+    def __init__(self, screen, x, y, w, h, color_background, color_border, active, contenedor_nivel=None):
         super().__init__(screen, x, y, w, h, color_background, color_border, active)
+        self.contenedor_nivel = contenedor_nivel
         self.volumen = current_volume  # Utiliza el volumen actual almacenado
         self.flag_play = True
         self.picture_box = PictureBox(self._slave, 0, 0, 800, 500, "gui\Window.png")
@@ -74,5 +74,8 @@ class formSettings(Form):
     def render(self):
         self._slave.fill(self._color_background)
     
-    def btn_home_click(self,param):
+    def btn_home_click(self, param):
+        if self.contenedor_nivel != None:
+            self.contenedor_nivel.setting = False  # Establecer self.setting en False
+            self.end_dialog()
         self.end_dialog()

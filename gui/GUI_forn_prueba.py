@@ -31,7 +31,7 @@ class FormPrueba(Form):
                                         "niveles")
         self.btn_settings = Button_Image(self._slave,x,y,100,50,50,50,"fondos\imagenes\pngtree-icon-setting-game-png-image_6402361.png",self.btn_settings_click,
                                           "settings")
-        self.picture_box = PictureBox(self._slave, 0, 0, 1000, 600, "fondos/imagenes/fondo.png")
+        self.picture_box = PictureBox(self._slave, 0, 0, 1000, 600, "fondos\imagenes/fondo.png")
         ######
 
         # Agrego los controles a la lista
@@ -99,6 +99,12 @@ class FormPrueba(Form):
         pantalla_completa = pygame.display.set_mode((self._master.get_width(), self._master.get_height()))
         imagen_cargada = pygame.image.load(imagen)
         imagen_redimensionada = pygame.transform.scale(imagen_cargada, (self._master.get_width(), self._master.get_height()))
-        pantalla_completa.blit(imagen_redimensionada, (0, 0))
-        pygame.display.flip()
-        pygame.time.wait(2000)
+        running = True
+
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    running = False
+
+            pantalla_completa.blit(imagen_redimensionada, (0, 0))
+            pygame.display.flip()

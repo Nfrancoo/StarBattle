@@ -1,10 +1,7 @@
 import pygame
 import sys
-from NivelUno import NivelUno
-from NivelDos import NivelDos
-from NivelTres import NivelTres
 from GUI_forn_prueba import *
-from animacion import *
+
 
 # Inicializar Pygame
 pygame.init()
@@ -30,7 +27,7 @@ running = True
 while running:
     lista_eventos = pygame.event.get()
     for event in lista_eventos:
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT: 
             running = False
             pygame.quit()
             sys.exit(0)
