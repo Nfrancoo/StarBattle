@@ -77,25 +77,74 @@ class FormPrueba(Form):
         self.show_dialog(formulario_setting)
 
     def btn_tabla_click(self, texto):
-        dic_score = [{"jugador": "Franco", "Score": 1},
-                     {"jugador": "Lili", "Score": 1220},
-                     {"jugador": "Diego", "Score": 190}]
+        dic_score = []
 
-        form_puntaje = FormMenuScore(self._master,
-                                     250,
-                                     25,
-                                     500,
-                                     550,
-                                     (220, 0, 220),
-                                     "White",
-                                     True,
-                                     "proyecto/gui\Window.png",
-                                     dic_score,
-                                     100,
-                                     10,
-                                     10)
+        try:
+            with open("datos_partida_NivelUno.json", "r") as file:
+                puntuacion = json.load(file)
+
+            duracion_nivel_uno = puntuacion["duracion"]
+            puntos_jugador_uno = puntuacion["puntos_jugador"]
+            puntos_enemigo_uno = puntuacion["puntos_enemigo"]
+
+            dic_score.append({"tiempo": duracion_nivel_uno, "Jugador": puntos_jugador_uno, "Enemigo": puntos_enemigo_uno})
+        except FileNotFoundError:
+            pass
+
+        try:
+            with open("datos_partida_NivelDos.json", "r") as file:
+                puntuacion_dos = json.load(file)
+
+            duracion_nivel_dos = puntuacion_dos["duracion"]
+            puntos_jugador_dos = puntuacion_dos["puntos_jugador"]
+            puntos_enemigo_dos = puntuacion_dos["puntos_enemigo"]
+
+            dic_score.append({"tiempo": duracion_nivel_dos, "Jugador": puntos_jugador_dos, "Enemigo": puntos_enemigo_dos})
+        except FileNotFoundError:
+            pass
+
+        try:
+            with open("datos_partida_NivelTres.json", "r") as file:
+                puntuacion_tres = json.load(file)
+
+            duracion_nivel_tres = puntuacion_tres["duracion"]
+            puntos_jugador_tres = puntuacion_tres["puntos_jugador"]
+            puntos_enemigo_tres = puntuacion_tres["puntos_enemigo"]
+
+            dic_score.append({"tiempo": duracion_nivel_tres, "Jugador": puntos_jugador_tres, "Enemigo": puntos_enemigo_tres})
+        except FileNotFoundError:
+            pass
+
+        try:
+            with open("datos_partida_NivelCuatro.json", "r") as file:
+                puntuacion_cuatro = json.load(file)
+
+            duracion_nivel_cuatro = puntuacion_cuatro["duracion"]
+            puntos_jugador_cuatro = puntuacion_cuatro["puntos_jugador"]
+            puntos_enemigo_cuatro = puntuacion_cuatro["puntos_enemigo"]
+
+            dic_score.append({"tiempo": duracion_nivel_cuatro, "Jugador": puntos_jugador_cuatro, "Enemigo": puntos_enemigo_cuatro})
+        except FileNotFoundError:
+            pass
+
+        form_puntaje = FormMenuScore(
+            self._master,
+            250,
+            25,
+            500,
+            550,
+            (220, 0, 220),
+            "White",
+            True,
+            "PROYECTO\gui\Window.png",
+            dic_score,
+            100,
+            10,
+            10
+        )
 
         self.show_dialog(form_puntaje)
+
 
     def mostrar_imagen(self, imagen):
         pantalla_completa = pygame.display.set_mode((self._master.get_width(), self._master.get_height()))

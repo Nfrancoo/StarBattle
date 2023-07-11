@@ -15,7 +15,7 @@ class formSettings(Form):
         self.volumen = current_volume  # Utiliza el volumen actual almacenado
         self.flag_play = True
         self.picture_box = PictureBox(self._slave, 0, 0, 800, 500, "proyecto/fondos\imagenes\settings.png")
-        self.btn_play = Button(self._slave, x, y, 150, 250, 100, 50, "Red", "Blue", self.btn_play_click, "Nombre", "Pausa", font="Verdana", font_size=15, font_color="White")
+        self.btn_play = Button_Image(self._slave,x,y,100,190,40,40,"PROYECTO/fondos\imagenes\music.png",self.btn_play_click, "hola")
         self.label_volumen = Label(self._slave, 590, 190, 100, 50, f"{round(self.volumen * 100)}%", "Comic Sans", 15, "White", "proyecto/gui\Table.png")
         self.slider_volumen = Slider(self._slave,x,y,150,200,400,15,self.volumen,"Blue","White")
         self.btn_home = Button_Image(screen=self._slave,
@@ -31,6 +31,7 @@ class formSettings(Form):
                                       text="",
                                       font="Arial",
                                       )
+
         self.lista_widgets.append(self.picture_box)
         self.lista_widgets.append(self.btn_home)           
         self.lista_widgets.append(self.btn_play)
@@ -40,17 +41,17 @@ class formSettings(Form):
     def btn_play_click(self, texto):
         if self.flag_play:
             pygame.mixer.music.pause()
-            self.btn_play._color_background = "Cyan"
-            self.btn_play._font_color = "Red"
-            self.btn_play.set_text("Play")
+            off = pygame.image.load('PROYECTO/fondos\imagenes\music_off.png')
+            pygame.transform.scale(off, (50, 50))
+            self.btn_play._slave = off
         else:
             pygame.mixer.music.unpause()
-            self.btn_play._color_background = "Red"
-            self.btn_play._font_color = "White"
-            self.btn_play.set_text("Pause")
+            on = pygame.image.load('PROYECTO/fondos\imagenes\music.png')
+            pygame.transform.scale(on, (50, 50))
+            self.btn_play._slave = on
+            
                 
         self.flag_play = not self.flag_play
-        self.contenedor_nivel.sonido_ataque.ejecutar_sonido = not self.contenedor_nivel.sonido_ataque.ejecutar_sonido
                     
     def update_volumen(self,lista_eventos):
         self.volumen = self.slider_volumen.value

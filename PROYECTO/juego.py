@@ -2,7 +2,7 @@ import pygame
 import sys
 from gui.GUI_forn_prueba import *
 
-
+ 
 # Inicializar Pygame
 pygame.init()
 pygame.mixer.init()

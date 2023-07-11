@@ -27,23 +27,24 @@ class ContenedorNivel(Form):
                                         font= "Verdana",
                                         font_size= 15,
                                         font_color= (0,255,0),
-                                        path_image= 'proyecto/gui\home.png' )
-        
-        self._btn_settings = Button_Image(screen=self._slave,
+                                        path_image= 'proyecto/gui\home.png')
+
+
+        self._btn_pause = Button_Image(screen=self._slave,
                                  master_x= self._x,
                                  master_y= self._y,
                                  x=470,
                                  y=50,
                                  w=60,
                                  h=60,
-                                 path_image="proyecto/fondos\imagenes\pngtree-icon-setting-game-png-image_6402361.png",
+                                 path_image="PROYECTO/fondos\imagenes\pausa_logo.png",
                                  onclick=self.btn_settings_click,
                                  onclick_param="settings")
         
-        self.lista_widgets.append(self._btn_settings)
+        self.lista_widgets.append(self._btn_pause)
         self.lista_widgets.append(self._btn_home)
 
-    
+
     def update(self, lista_evento):
         if self.setting == False:
             self.nivel.update(lista_evento)
@@ -58,13 +59,13 @@ class ContenedorNivel(Form):
             else:
                 self.hijo.update(lista_evento)
 
-        
+
     def btn_settings_click(self, text):
-        formulario_setting = FormPausa(self._master, 0, 0, 900, 700, "Black", "Black", True, self)  
-        self.setting = True 
+        formulario_setting = FormPausa(self._master, 0, 0, 900, 700, "Black", "Black", True, self)
+        self.setting = True
         self.show_dialog(formulario_setting)
 
- 
+
     def btn_home_click(self, param):
         from gui.GUI_form_menu_play import formNiveles
         formulario_niveles = formNiveles(self._master, 100, 25, 800, 550, "Black", "Black", True, "proyecto/gui\Window.png")
