@@ -24,6 +24,7 @@ class Personaje():
     self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
     self.en_plataforma = False
     self.sonido_ataque = sonidos
+    self.ejecutar_sonido = True
 
 
   def cargar_imagenes(self, sprite_sheet, animacion_pasos):
@@ -173,8 +174,9 @@ class Personaje():
   def attack(self, target):
     if self.cooldown_ataque == 0:
       #ejecutar ataque
-      self.atacando = True   
-      self.sonido_ataque.play()  
+      self.atacando = True  
+      if self.ejecutar_sonido: 
+        self.sonido_ataque.play()  
       attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
       if attacking_rect.colliderect(target.rect):
         target.vida -= 10

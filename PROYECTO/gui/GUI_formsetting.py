@@ -4,6 +4,7 @@ from gui.GUI_form import *
 from gui.GUI_button_image import *
 from gui.GUI_label import *
 from gui.GUI_slider import *
+from personaje.personajeNU import Personaje
 
 # Variable para almacenar el volumen actual
 current_volume = 0.2
@@ -41,17 +42,17 @@ class formSettings(Form):
     def btn_play_click(self, texto):
         if self.flag_play:
             pygame.mixer.music.pause()
-            off = pygame.image.load('PROYECTO/fondos\imagenes\music_off.png')
+            off = pygame.image.load('PROYECTO/fondos/imagenes/music_off.png')
             pygame.transform.scale(off, (50, 50))
             self.btn_play._slave = off
+            self.ejecutar_sonido = False  # Establecer en False cuando la música se pausa
         else:
             pygame.mixer.music.unpause()
-            on = pygame.image.load('PROYECTO/fondos\imagenes\music.png')
+            on = pygame.image.load('PROYECTO/fondos/imagenes/music.png')
             pygame.transform.scale(on, (50, 50))
             self.btn_play._slave = on
-            
-                
-        self.flag_play = not self.flag_play
+            self.ejecutar_sonido = True  # Establecer en True cuando la música se reanuda
+        
                     
     def update_volumen(self,lista_eventos):
         self.volumen = self.slider_volumen.value

@@ -24,6 +24,7 @@ class Enemigo():
         self.rango_ataque = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 3 * self.rect.width, self.rect.height)
         self.puede_saltar = True
         self.sonido_ataque = sonido
+        self.ejecutar_sonido = True
 
     def cargar_imagenes(self, sprite_sheet, animacion_pasos):
         #extraer imagenes del spritesheet
@@ -115,7 +116,8 @@ class Enemigo():
 
         if self.cooldown_ataque == 0:
             self.golpeando = True
-            self.sonido_ataque.play()
+            if self.ejecutar_sonido: 
+                self.sonido_ataque.play()  
             attack_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip),
                                       self.rect.y, 2 * self.rect.width, self.rect.height)
             if attack_rect.colliderect(target.rect):
