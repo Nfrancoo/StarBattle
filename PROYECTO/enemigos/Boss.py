@@ -28,7 +28,6 @@ class Boss():
         self.proyectil_cooldown = 500  # Tiempo de espera entre disparos (en milisegundos)
         self.last_proyectil_time = pygame.time.get_ticks()  # Tiempo del último disparo
         self.sonido_ataque = sonido
-        self.ejecutar_sonido = True
 
     def cargar_imagenes(self, sprite_sheet, animacion_pasos):
         #extraer imagenes del spritesheet
@@ -135,8 +134,7 @@ class Boss():
 
         if self.cooldown_ataque == 0:
             self.golpeando = True
-            if self.ejecutar_sonido:
-                self.sonido_ataque.play()
+            self.sonido_ataque.play()
             attack_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip),
                                       self.rect.y, 2 * self.rect.width, self.rect.height)
             if attack_rect.colliderect(target.rect):
