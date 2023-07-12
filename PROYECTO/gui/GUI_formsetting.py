@@ -52,6 +52,8 @@ class formSettings(Form):
             pygame.transform.scale(on, (50, 50))
             self.btn_play._slave = on
             self.ejecutar_sonido = True  # Establecer en True cuando la música se reanuda
+
+        self.flag_play = not self.flag_play
         
                     
     def update_volumen(self,lista_eventos):
