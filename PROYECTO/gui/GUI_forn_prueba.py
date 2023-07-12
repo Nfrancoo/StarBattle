@@ -22,11 +22,6 @@ class FormPrueba(Form):
         self.flag_play = True
 
         ######CONTROLES #####
-        #self.txtbox = TextBox(self._slave, x, y, 300, 50, 300, 30, "Gray", "White", "Red", "Blue", 2,font="Comic Sans", font_size=15, font_color="Black")
-        # self.btn_play = Button(self._slave, x, y, 100, 100, 100, 50, "Red", "Blue", self.btn_play_click, "Nombre",
-        #                        "Pausa", font="Verdana", font_size=15, font_color="White")
-        # self.label_volumen = Label(self._slave, 650, 190, 100, 50, "20%", "Comic Sans", 15, "White", "gui\Table.png")
-        # self.slider_volumen = Slider(self._slave, x, y, 100, 200, 500, 15, self.volumen, "Blue", "White")
         self.btn_tabla = Button_Image(self._slave, x, y, 900, 50, 50, 50, "proyecto/gui\Menu_BTN.png", self.btn_tabla_click,
                                       "lala")
         self.btn_niveles = Button_Image(self._slave, x, y, 400, 300, 200, 200, "proyecto/fondos\imagenes\images.png", self.btn_imagen_click,
@@ -38,10 +33,6 @@ class FormPrueba(Form):
 
         # Agrego los controles a la lista
         self.lista_widgets.append(self.picture_box)
-        #self.lista_widgets.append(self.txtbox)
-        # self.lista_widgets.append(self.btn_play)
-        # self.lista_widgets.append(self.label_volumen)
-        # self.lista_widgets.append(self.slider_volumen)
         self.lista_widgets.append(self.btn_tabla)
         self.lista_widgets.append(self.btn_niveles)
         self.lista_widgets.append(self.btn_settings)
@@ -145,6 +136,36 @@ class FormPrueba(Form):
 
         self.show_dialog(form_puntaje)
 
+        # Crear una conexión a la base de datos
+        conn = sqlite3.connect('datos_partida.db')
+
+        # Crear un cursor para ejecutar consultas SQL
+        cursor = conn.cursor()
+
+        # Crear la tabla
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS datos_partida (
+                tiempo TEXT,
+                jugador INTEGER,
+                enemigo INTEGER
+            )
+        ''')
+
+        # Eliminar los datos anteriores de la tabla
+        cursor.execute('''
+            DELETE FROM datos_partida
+        ''')
+
+        # Insertar los nuevos datos en la tabla
+        for score in dic_score:
+            cursor.execute('''
+                INSERT INTO datos_partida (tiempo, jugador, enemigo)
+                VALUES (?, ?, ?)
+            ''', (score["tiempo"], score["Jugador"], score["Enemigo"]))
+
+        # Guardar los cambios y cerrar la conexión
+        conn.commit()
+        conn.close()
 
     def mostrar_imagen(self, imagen):
         pantalla_completa = pygame.display.set_mode((self._master.get_width(), self._master.get_height()))

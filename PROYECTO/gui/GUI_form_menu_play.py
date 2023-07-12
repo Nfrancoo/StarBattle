@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 import os
-import json
 
 from gui.GUI_form import *
 from gui.GUI_form_contenedor_nivel import ContenedorNivel
